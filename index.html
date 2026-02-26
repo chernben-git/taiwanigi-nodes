@@ -713,18 +713,19 @@ const COUNTY_COLORS = {
 window.addEventListener('DOMContentLoaded', async () => {
   initNav();
   initMap();
-  await handleLineCallback(); // 處理 LINE Login 回調
+  // Loading 畫面最多等 2 秒，不管 API 成不成功都消失
+  setTimeout(hideLoading, 2000);
+  await handleLineCallback();
   restoreSession();
-  await loadData();
-  hideLoading();
+  loadData(); // 背景載入，不阻塞 UI
 });
 
 function hideLoading() {
-  setTimeout(() => {
-    const el = document.getElementById('loadingScreen');
-    el.classList.add('hide');
-    setTimeout(() => el.remove(), 600);
-  }, 1800);
+  const el = document.getElementById('loadingScreen');
+  if (!el) return;
+  el.style.transition = 'opacity 0.5s ease';
+  el.style.opacity = '0';
+  setTimeout(() => el.remove(), 600);
 }
 
 // ============================================================
