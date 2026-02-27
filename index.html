@@ -1077,74 +1077,36 @@ async function api(params, method = 'GET', body = null) {
   if (CONFIG.DEMO_MODE || !CONFIG.GAS_URL.includes('script.google.com')) {
     return demoApi(params, body);
   }
-  // POST → 用 fetch no-cors 送出，GET 用 JSONP（繞過手機 CORS 限制）
-  if (method === 'POST') {
-    return apiPost(body);
-  }
-  return apiJsonp(params);
-}
-
-// JSONP — 完全不受 CORS 限制，手機也能用
-function apiJsonp(params) {
-  return new Promise((resolve) => {
-    const cbName = 'gasCallback_' + Date.now() + '_' + Math.floor(Math.random()*9999);
-    const q = new URLSearchParams(params);
-    if (state.user) q.set('line_user_id', state.user.userId);
-    q.set('callback', cbName);
-    const url = CONFIG.GAS_URL + '?' + q.toString();
-
-    const timer = setTimeout(() => {
-      delete window[cbName];
-      const s = document.getElementById('jsonp_'+cbName);
-      if (s) s.remove();
-      resolve({ error: 'timeout' });
-    }, 10000);
-
-    window[cbName] = (data) => {
-      clearTimeout(timer);
-      delete window[cbName];
-      const s = document.getElementById('jsonp_'+cbName);
-      if (s) s.remove();
-      resolve(data);
-    };
-
-    const script = document.createElement('script');
-    script.id = 'jsonp_' + cbName;
-    script.src = url;
-    script.onerror = () => {
-      clearTimeout(timer);
-      delete window[cbName];
-      script.remove();
-      resolve({ error: 'script load error' });
-    };
-    document.head.appendChild(script);
-  });
-}
-
-// POST — no-cors 送出（只用於投票/核准，不需要讀回傳值）
-async function apiPost(body) {
   try {
-    const payload = { ...body, line_user_id: state.user?.userId };
-    // 先嘗試正常 fetch（電腦版）
-    const res = await fetch(CONFIG.GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    return await res.json();
-  } catch (err) {
-    // 手機版 CORS 失敗 → 改用 no-cors（不需回傳）
-    try {
-      await fetch(CONFIG.GAS_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-      return { success: true };
-    } catch(e2) {
-      return { error: e2.message };
+    let url = CONFIG.GAS_URL;
+    if (method === 'GET') {
+      const q = new URLSearchParams(params);
+      if (state.user) q.set('line_user_id', state.user.userId);
+      url += '?' + q.toString();
+      const res = await fetch(url, { cache: 'no-store' });
+      return await res.json();
+    } else {
+      const payload = { ...body, line_user_id: state.user?.userId };
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        return await res.json();
+      } catch(postErr) {
+        // 手機 CORS 限制時，改用 no-cors（無法讀回傳值）
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(payload),
+        });
+        return { success: true };
+      }
     }
+  } catch (err) {
+    console.error('API Error:', err);
+    return { error: err.message };
   }
 }
 
@@ -1783,18 +1745,18 @@ async function handleLineCallback() {
 
   // 用 code 換 token（需透過後端，避免 client_secret 外洩）
   // 這裡呼叫 GAS 做 token exchange
-  // 用 JSONP 換 token（避免手機 CORS）
-  const data = await apiJsonp({ action:'lineTokenExchange', code, redirect_uri: CONFIG.REDIRECT_URI });
-  if (data && data.profile) {
-    state.user = data.profile;
-    state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
-    localStorage.setItem('lineUser', JSON.stringify(state.user));
-    updateAuthUI();
-    toast(`🟢 歡迎，${state.user.displayName}！`);
-    if (state.isAdmin) document.getElementById('adminNavBtn').style.display = '';
-  } else {
-    toast('登入解析失敗: ' + (data?.error || '未知'), 'err');
-  }
+  const res = await fetch(CONFIG.GAS_URL + '?action=lineTokenExchange&code=' + code + '&redirect_uri=' + encodeURIComponent(CONFIG.REDIRECT_URI));
+  try {
+    const data = await res.json();
+    if (data.profile) {
+      state.user = data.profile;
+      state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
+      localStorage.setItem('lineUser', JSON.stringify(state.user));
+      updateAuthUI();
+      toast(`🟢 歡迎，${state.user.displayName}！`);
+      if (state.isAdmin) document.getElementById('adminNavBtn').style.display = '';
+    }
+  } catch(e) { toast('登入解析失敗', 'err'); }
 }
 
 function restoreSession() {
