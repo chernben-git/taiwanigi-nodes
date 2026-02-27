@@ -134,15 +134,15 @@ nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-li
 #authStatus { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
 #authStatus strong { color: var(--gold-light); }
 .auth-btn {
-  font-size: 0.75rem; padding: 0.3rem 0.8rem;
-  border-radius: 6px; border: none; cursor: pointer;
-  font-family: 'Noto Sans TC', sans-serif; font-weight: 500;
+  font-size: 0.68rem; padding: 0.2rem 0.6rem;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif; font-weight: 400;
   transition: all 0.2s;
 }
-.auth-btn-login { background: #06c755; color: white; }
-.auth-btn-login:hover { background: #05b04c; }
-.auth-btn-logout { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
-.auth-btn-logout:hover { background: rgba(255,255,255,0.2); }
+.auth-btn-login { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+.auth-btn-login:hover { background: rgba(255,255,255,0.16); color: rgba(255,255,255,0.65); }
+.auth-btn-logout { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35); }
+.auth-btn-logout:hover { background: rgba(255,255,255,0.12); }
 .admin-badge {
   font-size: 0.68rem; background: var(--gold);
   color: var(--ink); padding: 0.15rem 0.5rem;
@@ -259,6 +259,7 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
   border-radius: 4px; font-weight: 600; white-space: nowrap;
 }
 .badge-approved { background: var(--bamboo-pale); color: var(--bamboo); }
+.badge-growing  { background: #e8f4e8; color: #4a8c4a; }
 .badge-pending  { background: var(--earth-pale); color: var(--earth); }
 .badge-rejected { background: #f5e0e0; color: #a33; }
 .badge-blue     { background: var(--sky-pale); color: var(--sky); }
@@ -398,6 +399,103 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .photo-slot:hover { background: var(--bamboo-pale); }
 .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
 
+/* ============ GUIDE PAGE ============ */
+.guide-wrap { max-width: 720px; margin: 0 auto; padding: 1rem 0 3rem; }
+
+.guide-hero {
+  text-align: center; padding: 2.5rem 1rem 2rem;
+  background: linear-gradient(135deg, var(--bamboo) 0%, #2a5a3a 100%);
+  border-radius: 16px; margin-bottom: 2rem; color: white;
+}
+.guide-hero-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+.guide-hero-title { font-size: 1.4rem; font-weight: 700; margin: 0 0 0.5rem; }
+.guide-hero-sub { font-size: 0.88rem; opacity: 0.85; margin: 0; }
+
+.guide-section { margin-bottom: 2rem; }
+.guide-section-header {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1rem; padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--bamboo-pale);
+}
+.guide-section-icon { font-size: 1.2rem; }
+.guide-section h2 { font-size: 1rem; font-weight: 700; color: var(--bamboo); margin: 0; }
+.guide-intro { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.7; }
+
+.guide-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; }
+.guide-card {
+  background: var(--surface); border-radius: 12px; padding: 1rem 0.8rem;
+  text-align: center; border: 1px solid var(--border);
+  transition: box-shadow 0.2s;
+}
+.guide-card:hover { box-shadow: 0 3px 12px var(--shadow); }
+.guide-card-icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
+.guide-card-title { font-weight: 700; font-size: 0.88rem; margin-bottom: 0.3rem; color: var(--text); }
+.guide-card-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; }
+
+.guide-score-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+.guide-score-item {
+  background: var(--surface); border-radius: 12px; padding: 1rem;
+  border-left: 4px solid var(--clr); text-align: center;
+}
+.guide-score-num { font-size: 1.8rem; font-weight: 800; color: var(--clr); font-family: 'Space Mono', monospace; }
+.guide-score-label { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.25rem; }
+.guide-score-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; }
+
+.guide-status-flow {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem;
+  background: var(--surface); border-radius: 12px; padding: 1rem; justify-content: center;
+}
+.guide-status-step { display: flex; align-items: center; gap: 0.4rem; }
+.guide-status-badge {
+  padding: 0.4rem 0.7rem; border-radius: 8px; font-size: 0.78rem;
+  font-weight: 600; text-align: center; line-height: 1.4;
+}
+.guide-status-arrow { color: var(--text-muted); font-size: 1rem; }
+
+.guide-steps { display: flex; flex-direction: column; gap: 0.75rem; }
+.guide-step {
+  display: flex; align-items: flex-start; gap: 0.9rem;
+  background: var(--surface); border-radius: 12px; padding: 1rem;
+  border: 1px solid var(--border);
+}
+.guide-step-num {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--bamboo);
+  color: white; font-weight: 700; font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.guide-step-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; }
+.guide-step-desc { font-size: 0.78rem; color: var(--text-muted); }
+
+.guide-cmd-group { margin-bottom: 1.2rem; }
+.guide-cmd-label {
+  font-size: 0.78rem; font-weight: 700; color: var(--bamboo);
+  margin-bottom: 0.5rem; padding-left: 0.2rem;
+}
+.guide-cmd-list {
+  background: var(--surface); border-radius: 10px;
+  border: 1px solid var(--border); overflow: hidden;
+}
+.guide-cmd-row {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+}
+.guide-cmd-row:last-child { border-bottom: none; }
+.guide-cmd-row code {
+  background: var(--bamboo-pale); color: var(--bamboo);
+  padding: 0.2rem 0.5rem; border-radius: 5px; font-size: 0.78rem;
+  font-family: 'Space Mono', monospace; white-space: nowrap; flex-shrink: 0;
+}
+.guide-cmd-row span { color: var(--text-muted); font-size: 0.8rem; }
+
+.guide-cta {
+  text-align: center; padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--bamboo-pale), var(--rice));
+  border-radius: 16px; margin-top: 1rem;
+}
+.guide-cta p { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--bamboo); }
+.guide-cta .btn { margin: 0.3rem; }
+
 /* ============ ADMIN ============ */
 .admin-layout { display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; min-height: 600px; }
 .admin-nav { overflow: hidden; }
@@ -521,6 +619,7 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
     <nav>
       <button class="active" data-page="map">🗺️ 節點地圖</button>
       <button data-page="ranking">🏆 排行榜</button>
+      <button data-page="guide">📖 說明</button>
       <button data-page="detail">📊 節點詳情</button>
       <button data-page="admin" id="adminNavBtn" style="display:none">🔐 後台</button>
     </nav>
@@ -530,8 +629,8 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 <!-- ========== AUTH BAR ========== -->
 <div id="authBar">
   <div class="auth-inner">
-    <span id="authStatus" style="color:rgba(255,255,255,0.45)">尚未登入</span>
-    <button class="auth-btn auth-btn-login" id="loginBtn" onclick="lineLogin()">🟢 LINE 登入</button>
+    <span id="authStatus" style="color:rgba(255,255,255,0.35);font-size:0.7rem">未登入</span>
+    <button class="auth-btn auth-btn-login" id="loginBtn" onclick="lineLogin()" title="管理員登入">登入</button>
     <button class="auth-btn auth-btn-logout" id="logoutBtn" style="display:none" onclick="lineLogout()">登出</button>
   </div>
 </div>
@@ -626,6 +725,227 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
         <div style="background:var(--bamboo);color:white;border-radius:7px;padding:0.5rem;font-size:0.75rem;font-family:'Space Mono',monospace;text-align:center">@咱兜的台語</div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ========== GUIDE PAGE ========== -->
+<div id="page-guide" class="page">
+  <div class="guide-wrap">
+
+    <!-- 頁首 -->
+    <div class="guide-hero">
+      <div class="guide-hero-icon">🌱</div>
+      <h1 class="guide-hero-title">台語友善環境推薦系統</h1>
+      <p class="guide-hero-sub">讓台語在更多地方紮根，一起建立台灣的台語足跡地圖</p>
+    </div>
+
+    <!-- 什麼是台語友善環境 -->
+    <section class="guide-section">
+      <div class="guide-section-header">
+        <span class="guide-section-icon">❓</span>
+        <h2>什麼是台語友善環境？</h2>
+      </div>
+      <p class="guide-intro">台語友善環境是指在日常生活中能夠使用台語溝通、學習或感受台語文化的場所或服務。</p>
+      <div class="guide-cards">
+        <div class="guide-card">
+          <div class="guide-card-icon">⛪</div>
+          <div class="guide-card-title">教會</div>
+          <div class="guide-card-desc">主日禮拜以台語進行、週報以台語漢字印刷、台語詩歌吟唱</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-icon">🏪</div>
+          <div class="guide-card-title">店家</div>
+          <div class="guide-card-desc">老闆能以台語接待、有台語菜單或標示、台語服務不切換</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-icon">🏫</div>
+          <div class="guide-card-title">學校</div>
+          <div class="guide-card-desc">開設台語課程、台語教學環境、師生日常台語交流</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-icon">📻</div>
+          <div class="guide-card-title">電台</div>
+          <div class="guide-card-desc">24小時台語播音、台語節目、台語文化推廣廣播</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-card-icon">🌳</div>
+          <div class="guide-card-title">文化園區</div>
+          <div class="guide-card-desc">台語導覽、台語說故事活動、台語文化展示</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 評分系統 -->
+    <section class="guide-section">
+      <div class="guide-section-header">
+        <span class="guide-section-icon">📊</span>
+        <h2>台語友善指數怎麼計算？</h2>
+      </div>
+      <div class="guide-score-grid">
+        <div class="guide-score-item" style="--clr:#3d6b4f">
+          <div class="guide-score-num">30</div>
+          <div class="guide-score-label">社群推薦力</div>
+          <div class="guide-score-desc">成員票數、朋友票數加權計算</div>
+        </div>
+        <div class="guide-score-item" style="--clr:#c9a84c">
+          <div class="guide-score-num">30</div>
+          <div class="guide-score-label">行為活躍度</div>
+          <div class="guide-score-desc">在此打卡、錄台語、收聽廣播次數</div>
+        </div>
+        <div class="guide-score-item" style="--clr:#5b8dd9">
+          <div class="guide-score-num">20</div>
+          <div class="guide-score-label">台語證據度</div>
+          <div class="guide-score-desc">照片中台語標示、招牌的 AI 分析</div>
+        </div>
+        <div class="guide-score-item" style="--clr:#8b6b4f">
+          <div class="guide-score-num">20</div>
+          <div class="guide-score-label">資料完整度</div>
+          <div class="guide-score-desc">地址、聯絡、說明、照片是否齊全</div>
+        </div>
+      </div>
+      <div class="guide-status-flow">
+        <div class="guide-status-step">
+          <div class="guide-status-badge" style="background:#e8f0e8;color:#4a7a4a">📝 推薦</div>
+          <div class="guide-status-arrow">→</div>
+        </div>
+        <div class="guide-status-step">
+          <div class="guide-status-badge" style="background:#e8f4e8;color:#3d6b4f">🌱 培育中<br><small>0–64分</small></div>
+          <div class="guide-status-arrow">→</div>
+        </div>
+        <div class="guide-status-step">
+          <div class="guide-status-badge" style="background:#fff3e0;color:#b07000">🔍 審核中<br><small>65–79分</small></div>
+          <div class="guide-status-arrow">→</div>
+        </div>
+        <div class="guide-status-step">
+          <div class="guide-status-badge" style="background:#e8f4e8;color:#1a5c2a;font-weight:700">✅ 正式上架<br><small>80分以上</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 如何推薦 -->
+    <section class="guide-section">
+      <div class="guide-section-header">
+        <span class="guide-section-icon">🌿</span>
+        <h2>如何推薦節點？</h2>
+      </div>
+      <div class="guide-steps">
+        <div class="guide-step">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">在 LINE Bot 傳「推薦台語節點」</div>
+            <div class="guide-step-desc">或點下方按鈕開啟推薦頁面</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">填寫地點名稱、分類、地址</div>
+            <div class="guide-step-desc">教會、店家、學校、電台、文化園區</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">說明台語友善的理由</div>
+            <div class="guide-step-desc">例如：老闆全程台語、有台語招牌、主日台語禮拜</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">4</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">上傳照片（選填）</div>
+            <div class="guide-step-desc">台語招牌、菜單、週報等照片可提高台語證據度分數</div>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="guide-step-num">5</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">號召朋友投票</div>
+            <div class="guide-step-desc">分數達 80 分自動上架，進入台語友善地圖！</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 指令說明 -->
+    <section class="guide-section">
+      <div class="guide-section-header">
+        <span class="guide-section-icon">💬</span>
+        <h2>LINE Bot 指令一覽</h2>
+      </div>
+      <div class="guide-cmd-group">
+        <div class="guide-cmd-label">🔍 查詢</div>
+        <div class="guide-cmd-list">
+          <div class="guide-cmd-row">
+            <code>查節點 彰化</code>
+            <span>查詢彰化縣的台語友善節點</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>節點 NODE-001</code>
+            <span>查看某節點的詳細資料與分數</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>我的推薦</code>
+            <span>查看自己推薦過的節點狀態</span>
+          </div>
+        </div>
+      </div>
+      <div class="guide-cmd-group">
+        <div class="guide-cmd-label">🌿 推薦</div>
+        <div class="guide-cmd-list">
+          <div class="guide-cmd-row">
+            <code>推薦台語節點</code>
+            <span>開始推薦流程（多步驟引導）</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>推薦</code>
+            <span>開啟推薦選擇（Bot 或網頁）</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>取消</code>
+            <span>取消目前進行中的推薦流程</span>
+          </div>
+        </div>
+      </div>
+      <div class="guide-cmd-group">
+        <div class="guide-cmd-label">🗳️ 投票</div>
+        <div class="guide-cmd-list">
+          <div class="guide-cmd-row">
+            <code>投票 NODE-001</code>
+            <span>為節點投一票，幫助它早日上架</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>檢舉 NODE-001 原因</code>
+            <span>檢舉不符合台語友善標準的節點</span>
+          </div>
+        </div>
+      </div>
+      <div class="guide-cmd-group">
+        <div class="guide-cmd-label">🗺️ 網頁</div>
+        <div class="guide-cmd-list">
+          <div class="guide-cmd-row">
+            <code>地圖</code>
+            <span>開啟台語友善環境地圖網頁</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>排行榜</code>
+            <span>開啟台語友善指數排行榜</span>
+          </div>
+          <div class="guide-cmd-row">
+            <code>友善說明</code>
+            <span>開啟本說明頁面</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="guide-cta">
+      <p>你附近有台語友善環境嗎？</p>
+      <button class="btn btn-primary" onclick="goToPage('map')">🗺️ 先看看地圖</button>
+      <a class="btn btn-ghost" href="https://line.me/R/ti/p/@taiwanbot" target="_blank">📲 開啟 LINE Bot 推薦</a>
+    </div>
+
   </div>
 </div>
 
@@ -902,7 +1222,7 @@ function renderNodeList() {
           <div class="nc-id">${n.node_id}</div>
           <div class="nc-name">${n.name}</div>
         </div>
-        <span class="badge badge-${n.status==='approved'?'approved':'pending'}">${n.status==='approved'?'上架':'待審'}</span>
+        <span class="badge badge-${n.status==='approved'?'approved':n.status==='growing'?'growing':'pending'}">${n.status==='approved'?'✅ 上架':n.status==='growing'?'🌱 培育中':'⏳ 待審'}</span>
       </div>
       <div class="nc-addr">📍 ${n.address}</div>
       <div class="nc-foot">
@@ -910,7 +1230,7 @@ function renderNodeList() {
           <div class="score-bar" style="flex:1"><div class="score-fill" style="width:${n.score}%"></div></div>
           <span class="score-num">${n.score}</span>
           <span style="font-size:0.7rem;color:var(--text-muted);margin-left:4px">👍${n.votes}</span>
-        ` : `<span style="font-size:0.72rem;color:var(--text-muted)">等待審核中…</span>`}
+        ` : `<span style="font-size:0.72rem;color:var(--text-muted)">${n.status==='growing'?'🌱 培育中，需要更多台語足跡':'等待審核中…'}</span>`}
       </div>
     </div>
   `).join('');
@@ -981,7 +1301,7 @@ function renderMapMarkers(nodes) {
         <div style="font-size:0.72rem;color:#7a6a50;margin-bottom:6px">${node.address}</div>
         ${node.status==='approved'
           ? `<div style="font-size:0.78rem">友善指數：<strong style="color:#3d6b4f">${node.score}</strong> ／ 票數：${node.votes}</div>`
-          : `<span style="background:#f5ddd0;color:#c4622d;font-size:0.7rem;padding:2px 6px;border-radius:4px">待審核</span>`}
+          : `<span style="background:#e8f4e8;color:#4a8c4a;font-size:0.7rem;padding:2px 6px;border-radius:4px">${n.status==='growing'?'🌱 培育中':'⏳ 待審核'}</span>`}
         <div style="margin-top:8px">
           <button onclick="jumpToDetail('${node.node_id}')" style="background:#3d6b4f;color:white;border:none;border-radius:5px;padding:4px 9px;font-size:0.76rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif">查看詳情</button>
         </div>
