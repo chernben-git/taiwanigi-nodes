@@ -1176,7 +1176,7 @@ async function loadData() {
 
     // 直接從 nodes 計算統計，不需額外 request
     const nodes    = state.nodes;
-    const approved = nodes.filter(n => n.status === 'approved' || n.status === 'growing');
+    const approved = nodes.filter(n => n.status === 'approved');
     const pending  = nodes.filter(n => n.status === 'pending');
     const counties = {};
     approved.forEach(n => { if (n.county) counties[n.county] = (counties[n.county]||0)+1; });
