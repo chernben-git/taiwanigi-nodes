@@ -1163,9 +1163,8 @@ function demoApi(params, body) {
 // LOAD DATA
 // ============================================================
 async function loadData() {
-  // JSONP 不能同時並發，改循序執行
+  // 只發一次 request，從 nodes 計算統計（避免 LINE WebView 被限速）
   const nodesRes = await api({ action:'getNodes' });
-  const statsRes = await api({ action:'getStats' });
 
   if (nodesRes.success) {
     state.nodes = nodesRes.nodes;
@@ -1174,19 +1173,24 @@ async function loadData() {
     renderMapMarkers(state.nodes);
     populateDetailSelect();
     setApiStatus(true);
+
+    // 直接從 nodes 計算統計，不需額外 request
+    const nodes    = state.nodes;
+    const approved = nodes.filter(n => n.status === 'approved' || n.status === 'growing');
+    const pending  = nodes.filter(n => n.status === 'pending');
+    const counties = {};
+    approved.forEach(n => { if (n.county) counties[n.county] = (counties[n.county]||0)+1; });
+    const total_votes = nodes.reduce((s, n) => s + (parseInt(n.votes)||0), 0);
+
+    animateNum('st-total',    approved.length);
+    animateNum('st-pending',  pending.length);
+    animateNum('st-votes',    total_votes);
+    animateNum('st-counties', Object.keys(counties).length);
+    document.getElementById('pendingBadge').textContent = pending.length;
+    document.querySelectorAll('.stat-num').forEach(el => el.classList.remove('loading-val'));
+    state.stats = { approved: approved.length, pending: pending.length, total_votes, counties };
   } else {
     setApiStatus(false, nodesRes.error);
-  }
-
-  if (statsRes.success) {
-    const s = statsRes.stats;
-    state.stats = s;
-    animateNum('st-total',   s.approved);
-    animateNum('st-pending', s.pending);
-    animateNum('st-votes',   s.total_votes);
-    animateNum('st-counties', Object.keys(s.counties||{}).length);
-    document.getElementById('pendingBadge').textContent = s.pending;
-    document.querySelectorAll('.stat-num').forEach(el => el.classList.remove('loading-val'));
   }
 }
 
