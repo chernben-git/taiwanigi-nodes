@@ -10,7 +10,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
-/* ============ CSS VARIABLES ============ */
 :root {
   --ink: #1a1208;
   --bamboo: #3d6b4f;
@@ -42,7 +41,6 @@ body {
   min-height: 100vh;
 }
 
-/* grain texture */
 body::after {
   content: '';
   position: fixed; inset: 0;
@@ -50,7 +48,6 @@ body::after {
   pointer-events: none; z-index: 9998; opacity: 0.5;
 }
 
-/* ============ LOADING SCREEN ============ */
 #loadingScreen {
   position: fixed; inset: 0;
   background: var(--bamboo);
@@ -87,7 +84,6 @@ body::after {
 }
 @keyframes loadBar { from { width: 0; } to { width: 100%; } }
 
-/* ============ HEADER ============ */
 header {
   background: var(--bamboo);
   color: white;
@@ -124,7 +120,6 @@ nav button {
 nav button:hover { color: white; background: rgba(255,255,255,0.07); }
 nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-light); }
 
-/* ============ LINE AUTH BAR ============ */
 #authBar {
   background: var(--ink);
   padding: 0.45rem 2rem;
@@ -149,7 +144,6 @@ nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-li
   border-radius: 4px; font-weight: 700;
 }
 
-/* ============ HERO ============ */
 .hero {
   background: linear-gradient(140deg, #243d30 0%, #3d6b4f 55%, #4e7d62 100%);
   padding: 2.5rem 2rem;
@@ -183,7 +177,6 @@ nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-li
   animation: fadeUp 0.5s ease both;
   min-width: 90px;
 }
-.stat-box:nth-child(n) { animation-delay: calc(var(--i,0) * 0.08s); }
 .stat-num {
   font-family: 'Space Mono', monospace; font-size: 1.7rem;
   font-weight: 700; color: var(--gold-light); line-height: 1;
@@ -196,13 +189,11 @@ nav button.active { color: var(--gold-light); border-bottom-color: var(--gold-li
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ MAIN ============ */
 main { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
 .page { display: none; }
 .page.active { display: block; animation: fadeIn 0.25s ease; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ============ SHARED COMPONENTS ============ */
 .section-title {
   font-family: 'Noto Serif TC', serif; font-size: 1.2rem;
   font-weight: 700; color: var(--bamboo);
@@ -264,19 +255,15 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
 .badge-rejected { background: #f5e0e0; color: #a33; }
 .badge-blue     { background: var(--sky-pale); color: var(--sky); }
 
-/* ============ MAP PAGE ============ */
 .map-layout {
   display: grid; grid-template-columns: 320px 1fr;
   gap: 1.2rem; height: calc(100vh - 230px); min-height: 480px;
 }
 .map-sidebar { display: flex; flex-direction: column; gap: 0.8rem; overflow: hidden; }
-
 .filter-card { padding: 1rem; }
-
 .label-sm { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; letter-spacing: 0.04em; display: block; margin-bottom: 3px; }
 .field-row { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; }
 .field-row > * { flex: 1; }
-
 .node-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; padding-right: 2px; }
 
 .node-card {
@@ -301,7 +288,6 @@ textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
 .map-wrap { border-radius: 14px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 4px 20px var(--shadow); }
 #map { height: 100%; }
 
-/* ============ RANKING PAGE ============ */
 .ranking-layout { display: grid; grid-template-columns: 1fr 300px; gap: 1.2rem; }
 
 .table-card { overflow: hidden; }
@@ -341,7 +327,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .bar-outer { flex: 1; height: 18px; background: var(--rice-dark); border-radius: 3px; overflow: hidden; }
 .bar-inner { height: 100%; border-radius: 3px; display: flex; align-items: center; padding: 0 5px; font-size: 0.68rem; font-weight: 700; color: white; transition: width 1.4s ease; }
 
-/* ============ NODE DETAIL ============ */
 .detail-layout { display: grid; grid-template-columns: 1fr 340px; gap: 1.2rem; }
 
 .detail-main-card { padding: 1.4rem; }
@@ -399,7 +384,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .photo-slot:hover { background: var(--bamboo-pale); }
 .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ============ GUIDE PAGE ============ */
 .guide-wrap { max-width: 720px; margin: 0 auto; padding: 1rem 0 3rem; }
 
 .guide-hero {
@@ -423,7 +407,7 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 .guide-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.75rem; }
 .guide-card {
-  background: var(--surface); border-radius: 12px; padding: 1rem 0.8rem;
+  background: white; border-radius: 12px; padding: 1rem 0.8rem;
   text-align: center; border: 1px solid var(--border);
   transition: box-shadow 0.2s;
 }
@@ -434,7 +418,7 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 .guide-score-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
 .guide-score-item {
-  background: var(--surface); border-radius: 12px; padding: 1rem;
+  background: white; border-radius: 12px; padding: 1rem;
   border-left: 4px solid var(--clr); text-align: center;
 }
 .guide-score-num { font-size: 1.8rem; font-weight: 800; color: var(--clr); font-family: 'Space Mono', monospace; }
@@ -443,7 +427,7 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 .guide-status-flow {
   display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem;
-  background: var(--surface); border-radius: 12px; padding: 1rem; justify-content: center;
+  background: white; border-radius: 12px; padding: 1rem; justify-content: center;
 }
 .guide-status-step { display: flex; align-items: center; gap: 0.4rem; }
 .guide-status-badge {
@@ -455,7 +439,7 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .guide-steps { display: flex; flex-direction: column; gap: 0.75rem; }
 .guide-step {
   display: flex; align-items: flex-start; gap: 0.9rem;
-  background: var(--surface); border-radius: 12px; padding: 1rem;
+  background: white; border-radius: 12px; padding: 1rem;
   border: 1px solid var(--border);
 }
 .guide-step-num {
@@ -467,18 +451,11 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .guide-step-desc { font-size: 0.78rem; color: var(--text-muted); }
 
 .guide-cmd-group { margin-bottom: 1.2rem; }
-.guide-cmd-label {
-  font-size: 0.78rem; font-weight: 700; color: var(--bamboo);
-  margin-bottom: 0.5rem; padding-left: 0.2rem;
-}
-.guide-cmd-list {
-  background: var(--surface); border-radius: 10px;
-  border: 1px solid var(--border); overflow: hidden;
-}
+.guide-cmd-label { font-size: 0.78rem; font-weight: 700; color: var(--bamboo); margin-bottom: 0.5rem; padding-left: 0.2rem; }
+.guide-cmd-list { background: white; border-radius: 10px; border: 1px solid var(--border); overflow: hidden; }
 .guide-cmd-row {
   display: flex; align-items: center; gap: 0.8rem;
-  padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border);
-  font-size: 0.83rem;
+  padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--border); font-size: 0.83rem;
 }
 .guide-cmd-row:last-child { border-bottom: none; }
 .guide-cmd-row code {
@@ -496,7 +473,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .guide-cta p { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--bamboo); }
 .guide-cta .btn { margin: 0.3rem; }
 
-/* ============ ADMIN ============ */
 .admin-layout { display: grid; grid-template-columns: 220px 1fr; gap: 1.2rem; min-height: 600px; }
 .admin-nav { overflow: hidden; }
 .admin-nav-title {
@@ -536,7 +512,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .action-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
 .reject-input { flex: 1; min-width: 140px; padding: 0.38rem 0.7rem; font-size: 0.8rem; }
 
-/* ============ SETTINGS ============ */
 .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .setting-card { padding: 1.2rem; }
 .setting-card h3 { font-family: 'Noto Serif TC', serif; font-size: 0.92rem; font-weight: 700; color: var(--bamboo); margin-bottom: 0.8rem; }
@@ -544,7 +519,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 .setting-row label { font-size: 0.72rem; color: var(--text-muted); display: block; margin-bottom: 3px; }
 .code-box { background: var(--ink); color: var(--gold-light); font-family: 'Space Mono', monospace; font-size: 0.78rem; padding: 0.6rem 0.8rem; border-radius: 7px; margin-top: 0.5rem; overflow-x: auto; white-space: nowrap; }
 
-/* ============ EMPTY / ERROR STATES ============ */
 .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); }
 .empty-state .icon { font-size: 2.5rem; opacity: 0.4; margin-bottom: 0.8rem; }
 .empty-state p { font-size: 0.88rem; }
@@ -556,7 +530,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   display: flex; align-items: center; gap: 0.6rem;
 }
 
-/* ============ SPINNER ============ */
 .spinner {
   width: 20px; height: 20px; border-radius: 50%;
   border: 2px solid var(--bamboo-pale);
@@ -567,7 +540,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 .loading-row { display: flex; justify-content: center; padding: 2rem; }
 
-/* ============ TOAST ============ */
 .toast-wrap { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 10000; display: flex; flex-direction: column; gap: 0.4rem; }
 .toast {
   background: var(--ink); color: white;
@@ -582,12 +554,10 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 @keyframes toastIn  { from { opacity:0; transform:translateX(20px); } }
 @keyframes toastOut { to   { opacity:0; transform:translateX(20px); } }
 
-/* ============ SCROLLBAR ============ */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--bamboo-pale); }
 
-/* ============ RESPONSIVE ============ */
 @media (max-width: 960px) {
   .map-layout, .ranking-layout, .detail-layout, .admin-layout { grid-template-columns: 1fr; }
   .map-wrap { height: 380px; }
@@ -599,14 +569,12 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 </head>
 <body>
 
-<!-- ========== LOADING SCREEN ========== -->
 <div id="loadingScreen">
   <div class="loading-logo">咱兜的台語</div>
   <div class="loading-sub">TAI-GÍ FRIENDLY ENVIRONMENT</div>
   <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
 </div>
 
-<!-- ========== HEADER ========== -->
 <header>
   <div class="header-inner">
     <div class="logo">
@@ -626,7 +594,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   </div>
 </header>
 
-<!-- ========== AUTH BAR ========== -->
 <div id="authBar">
   <div class="auth-inner">
     <span id="authStatus" style="color:rgba(255,255,255,0.35);font-size:0.7rem">未登入</span>
@@ -635,7 +602,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   </div>
 </div>
 
-<!-- ========== HERO ========== -->
 <div class="hero">
   <div class="hero-bg-text">台語友善</div>
   <div class="hero-inner">
@@ -655,7 +621,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 <main>
 
-<!-- ========== MAP PAGE ========== -->
 <div id="page-map" class="page active">
   <div class="map-layout">
     <div class="map-sidebar">
@@ -691,7 +656,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   </div>
 </div>
 
-<!-- ========== RANKING PAGE ========== -->
 <div id="page-ranking" class="page">
   <div class="ranking-layout">
     <div>
@@ -728,228 +692,91 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   </div>
 </div>
 
-<!-- ========== GUIDE PAGE ========== -->
 <div id="page-guide" class="page">
   <div class="guide-wrap">
-
-    <!-- 頁首 -->
     <div class="guide-hero">
       <div class="guide-hero-icon">🌱</div>
       <h1 class="guide-hero-title">台語友善環境推薦系統</h1>
       <p class="guide-hero-sub">讓台語在更多地方紮根，一起建立台灣的台語足跡地圖</p>
     </div>
-
-    <!-- 什麼是台語友善環境 -->
     <section class="guide-section">
-      <div class="guide-section-header">
-        <span class="guide-section-icon">❓</span>
-        <h2>什麼是台語友善環境？</h2>
-      </div>
+      <div class="guide-section-header"><span class="guide-section-icon">❓</span><h2>什麼是台語友善環境？</h2></div>
       <p class="guide-intro">台語友善環境是指在日常生活中能夠使用台語溝通、學習或感受台語文化的場所或服務。</p>
       <div class="guide-cards">
-        <div class="guide-card">
-          <div class="guide-card-icon">⛪</div>
-          <div class="guide-card-title">教會</div>
-          <div class="guide-card-desc">主日禮拜以台語進行、週報以台語漢字印刷、台語詩歌吟唱</div>
-        </div>
-        <div class="guide-card">
-          <div class="guide-card-icon">🏪</div>
-          <div class="guide-card-title">店家</div>
-          <div class="guide-card-desc">老闆能以台語接待、有台語菜單或標示、台語服務不切換</div>
-        </div>
-        <div class="guide-card">
-          <div class="guide-card-icon">🏫</div>
-          <div class="guide-card-title">學校</div>
-          <div class="guide-card-desc">開設台語課程、台語教學環境、師生日常台語交流</div>
-        </div>
-        <div class="guide-card">
-          <div class="guide-card-icon">📻</div>
-          <div class="guide-card-title">電台</div>
-          <div class="guide-card-desc">24小時台語播音、台語節目、台語文化推廣廣播</div>
-        </div>
-        <div class="guide-card">
-          <div class="guide-card-icon">🌳</div>
-          <div class="guide-card-title">文化園區</div>
-          <div class="guide-card-desc">台語導覽、台語說故事活動、台語文化展示</div>
-        </div>
+        <div class="guide-card"><div class="guide-card-icon">⛪</div><div class="guide-card-title">教會</div><div class="guide-card-desc">主日禮拜以台語進行、週報以台語漢字印刷、台語詩歌吟唱</div></div>
+        <div class="guide-card"><div class="guide-card-icon">🏪</div><div class="guide-card-title">店家</div><div class="guide-card-desc">老闆能以台語接待、有台語菜單或標示、台語服務不切換</div></div>
+        <div class="guide-card"><div class="guide-card-icon">🏫</div><div class="guide-card-title">學校</div><div class="guide-card-desc">開設台語課程、台語教學環境、師生日常台語交流</div></div>
+        <div class="guide-card"><div class="guide-card-icon">📻</div><div class="guide-card-title">電台</div><div class="guide-card-desc">24小時台語播音、台語節目、台語文化推廣廣播</div></div>
+        <div class="guide-card"><div class="guide-card-icon">🌳</div><div class="guide-card-title">文化園區</div><div class="guide-card-desc">台語導覽、台語說故事活動、台語文化展示</div></div>
       </div>
     </section>
-
-    <!-- 評分系統 -->
     <section class="guide-section">
-      <div class="guide-section-header">
-        <span class="guide-section-icon">📊</span>
-        <h2>台語友善指數怎麼計算？</h2>
-      </div>
+      <div class="guide-section-header"><span class="guide-section-icon">📊</span><h2>台語友善指數怎麼計算？</h2></div>
       <div class="guide-score-grid">
-        <div class="guide-score-item" style="--clr:#3d6b4f">
-          <div class="guide-score-num">30</div>
-          <div class="guide-score-label">社群推薦力</div>
-          <div class="guide-score-desc">成員票數、朋友票數加權計算</div>
-        </div>
-        <div class="guide-score-item" style="--clr:#c9a84c">
-          <div class="guide-score-num">30</div>
-          <div class="guide-score-label">行為活躍度</div>
-          <div class="guide-score-desc">在此打卡、錄台語、收聽廣播次數</div>
-        </div>
-        <div class="guide-score-item" style="--clr:#5b8dd9">
-          <div class="guide-score-num">20</div>
-          <div class="guide-score-label">台語證據度</div>
-          <div class="guide-score-desc">照片中台語標示、招牌的 AI 分析</div>
-        </div>
-        <div class="guide-score-item" style="--clr:#8b6b4f">
-          <div class="guide-score-num">20</div>
-          <div class="guide-score-label">資料完整度</div>
-          <div class="guide-score-desc">地址、聯絡、說明、照片是否齊全</div>
-        </div>
+        <div class="guide-score-item" style="--clr:#3d6b4f"><div class="guide-score-num">30</div><div class="guide-score-label">社群推薦力</div><div class="guide-score-desc">成員票數、朋友票數加權計算</div></div>
+        <div class="guide-score-item" style="--clr:#c9a84c"><div class="guide-score-num">30</div><div class="guide-score-label">行為活躍度</div><div class="guide-score-desc">在此打卡、錄台語、收聽廣播次數</div></div>
+        <div class="guide-score-item" style="--clr:#5b8dd9"><div class="guide-score-num">20</div><div class="guide-score-label">台語證據度</div><div class="guide-score-desc">照片中台語標示、招牌的 AI 分析</div></div>
+        <div class="guide-score-item" style="--clr:#8b6b4f"><div class="guide-score-num">20</div><div class="guide-score-label">資料完整度</div><div class="guide-score-desc">地址、聯絡、說明、照片是否齊全</div></div>
       </div>
       <div class="guide-status-flow">
-        <div class="guide-status-step">
-          <div class="guide-status-badge" style="background:#e8f0e8;color:#4a7a4a">📝 推薦</div>
-          <div class="guide-status-arrow">→</div>
-        </div>
-        <div class="guide-status-step">
-          <div class="guide-status-badge" style="background:#e8f4e8;color:#3d6b4f">🌱 培育中<br><small>0–64分</small></div>
-          <div class="guide-status-arrow">→</div>
-        </div>
-        <div class="guide-status-step">
-          <div class="guide-status-badge" style="background:#fff3e0;color:#b07000">🔍 審核中<br><small>65–79分</small></div>
-          <div class="guide-status-arrow">→</div>
-        </div>
-        <div class="guide-status-step">
-          <div class="guide-status-badge" style="background:#e8f4e8;color:#1a5c2a;font-weight:700">✅ 正式上架<br><small>80分以上</small></div>
-        </div>
+        <div class="guide-status-step"><div class="guide-status-badge" style="background:#e8f0e8;color:#4a7a4a">📝 推薦</div><div class="guide-status-arrow">→</div></div>
+        <div class="guide-status-step"><div class="guide-status-badge" style="background:#e8f4e8;color:#3d6b4f">🌱 培育中<br><small>0–64分</small></div><div class="guide-status-arrow">→</div></div>
+        <div class="guide-status-step"><div class="guide-status-badge" style="background:#fff3e0;color:#b07000">🔍 審核中<br><small>65–79分</small></div><div class="guide-status-arrow">→</div></div>
+        <div class="guide-status-step"><div class="guide-status-badge" style="background:#e8f4e8;color:#1a5c2a;font-weight:700">✅ 正式上架<br><small>80分以上</small></div></div>
       </div>
     </section>
-
-    <!-- 如何推薦 -->
     <section class="guide-section">
-      <div class="guide-section-header">
-        <span class="guide-section-icon">🌿</span>
-        <h2>如何推薦節點？</h2>
-      </div>
+      <div class="guide-section-header"><span class="guide-section-icon">🌿</span><h2>如何推薦節點？</h2></div>
       <div class="guide-steps">
-        <div class="guide-step">
-          <div class="guide-step-num">1</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">在 LINE Bot 傳「推薦台語節點」</div>
-            <div class="guide-step-desc">或點下方按鈕開啟推薦頁面</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-step-num">2</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">填寫地點名稱、分類、地址</div>
-            <div class="guide-step-desc">教會、店家、學校、電台、文化園區</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-step-num">3</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">說明台語友善的理由</div>
-            <div class="guide-step-desc">例如：老闆全程台語、有台語招牌、主日台語禮拜</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-step-num">4</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">上傳照片（選填）</div>
-            <div class="guide-step-desc">台語招牌、菜單、週報等照片可提高台語證據度分數</div>
-          </div>
-        </div>
-        <div class="guide-step">
-          <div class="guide-step-num">5</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">號召朋友投票</div>
-            <div class="guide-step-desc">分數達 80 分自動上架，進入台語友善地圖！</div>
-          </div>
-        </div>
+        <div class="guide-step"><div class="guide-step-num">1</div><div><div class="guide-step-title">在 LINE Bot 傳「推薦台語節點」</div><div class="guide-step-desc">或點下方按鈕開啟推薦頁面</div></div></div>
+        <div class="guide-step"><div class="guide-step-num">2</div><div><div class="guide-step-title">填寫地點名稱、分類、地址</div><div class="guide-step-desc">教會、店家、學校、電台、文化園區</div></div></div>
+        <div class="guide-step"><div class="guide-step-num">3</div><div><div class="guide-step-title">說明台語友善的理由</div><div class="guide-step-desc">例如：老闆全程台語、有台語招牌、主日台語禮拜</div></div></div>
+        <div class="guide-step"><div class="guide-step-num">4</div><div><div class="guide-step-title">上傳照片（選填）</div><div class="guide-step-desc">台語招牌、菜單、週報等照片可提高台語證據度分數</div></div></div>
+        <div class="guide-step"><div class="guide-step-num">5</div><div><div class="guide-step-title">號召朋友投票</div><div class="guide-step-desc">分數達 80 分自動上架，進入台語友善地圖！</div></div></div>
       </div>
     </section>
-
-    <!-- 指令說明 -->
     <section class="guide-section">
-      <div class="guide-section-header">
-        <span class="guide-section-icon">💬</span>
-        <h2>LINE Bot 指令一覽</h2>
-      </div>
+      <div class="guide-section-header"><span class="guide-section-icon">💬</span><h2>LINE Bot 指令一覽</h2></div>
       <div class="guide-cmd-group">
         <div class="guide-cmd-label">🔍 查詢</div>
         <div class="guide-cmd-list">
-          <div class="guide-cmd-row">
-            <code>查節點 彰化</code>
-            <span>查詢彰化縣的台語友善節點</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>節點 NODE-001</code>
-            <span>查看某節點的詳細資料與分數</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>我的推薦</code>
-            <span>查看自己推薦過的節點狀態</span>
-          </div>
+          <div class="guide-cmd-row"><code>查節點 彰化</code><span>查詢彰化縣的台語友善節點</span></div>
+          <div class="guide-cmd-row"><code>節點 NODE-001</code><span>查看某節點的詳細資料與分數</span></div>
+          <div class="guide-cmd-row"><code>我的推薦</code><span>查看自己推薦過的節點狀態</span></div>
         </div>
       </div>
       <div class="guide-cmd-group">
         <div class="guide-cmd-label">🌿 推薦</div>
         <div class="guide-cmd-list">
-          <div class="guide-cmd-row">
-            <code>推薦台語節點</code>
-            <span>開始推薦流程（多步驟引導）</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>推薦</code>
-            <span>開啟推薦選擇（Bot 或網頁）</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>取消</code>
-            <span>取消目前進行中的推薦流程</span>
-          </div>
+          <div class="guide-cmd-row"><code>推薦台語節點</code><span>開始推薦流程（多步驟引導）</span></div>
+          <div class="guide-cmd-row"><code>推薦</code><span>開啟推薦選擇（Bot 或網頁）</span></div>
+          <div class="guide-cmd-row"><code>取消</code><span>取消目前進行中的推薦流程</span></div>
         </div>
       </div>
       <div class="guide-cmd-group">
         <div class="guide-cmd-label">🗳️ 投票</div>
         <div class="guide-cmd-list">
-          <div class="guide-cmd-row">
-            <code>投票 NODE-001</code>
-            <span>為節點投一票，幫助它早日上架</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>檢舉 NODE-001 原因</code>
-            <span>檢舉不符合台語友善標準的節點</span>
-          </div>
+          <div class="guide-cmd-row"><code>投票 NODE-001</code><span>為節點投一票，幫助它早日上架</span></div>
+          <div class="guide-cmd-row"><code>檢舉 NODE-001 原因</code><span>檢舉不符合台語友善標準的節點</span></div>
         </div>
       </div>
       <div class="guide-cmd-group">
         <div class="guide-cmd-label">🗺️ 網頁</div>
         <div class="guide-cmd-list">
-          <div class="guide-cmd-row">
-            <code>地圖</code>
-            <span>開啟台語友善環境地圖網頁</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>排行榜</code>
-            <span>開啟台語友善指數排行榜</span>
-          </div>
-          <div class="guide-cmd-row">
-            <code>友善說明</code>
-            <span>開啟本說明頁面</span>
-          </div>
+          <div class="guide-cmd-row"><code>地圖</code><span>開啟台語友善環境地圖網頁</span></div>
+          <div class="guide-cmd-row"><code>排行榜</code><span>開啟台語友善指數排行榜</span></div>
+          <div class="guide-cmd-row"><code>友善說明</code><span>開啟本說明頁面</span></div>
         </div>
       </div>
     </section>
-
-    <!-- CTA -->
     <div class="guide-cta">
       <p>你附近有台語友善環境嗎？</p>
       <button class="btn btn-primary" onclick="goToPage('map')">🗺️ 先看看地圖</button>
       <a class="btn btn-ghost" href="https://line.me/R/ti/p/@taiwanbot" target="_blank">📲 開啟 LINE Bot 推薦</a>
     </div>
-
   </div>
 </div>
 
-<!-- ========== DETAIL PAGE ========== -->
 <div id="page-detail" class="page">
   <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem">
     <div class="section-title" style="margin:0;flex:1">節點詳細資料</div>
@@ -962,7 +789,6 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
   </div>
 </div>
 
-<!-- ========== ADMIN PAGE ========== -->
 <div id="page-admin" class="page">
   <div class="admin-layout">
     <div class="card admin-nav">
@@ -984,25 +810,15 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 
 <div class="toast-wrap" id="toastWrap"></div>
 
-<!-- ========== SCRIPTS ========== -->
 <script>
 // ============================================================
-// ★ CONFIG — 修改這裡
+// CONFIG
 // ============================================================
 const CONFIG = {
-  // GAS 後端 URL（部署後貼上）
   GAS_URL: 'https://script.google.com/macros/s/AKfycbwDv3vDAqSDd0KiJvqg78GsFGVOySMAgP1UFNfyH_I4a7JxMGS0AD1jVPl3ymFQWrM1lA/exec',
-
-  // LINE Login Channel ID
   LINE_CHANNEL_ID: '2009251137',
-
-  // 管理員 LINE userId 清單（登入後從 GAS log 取得）
-  ADMIN_IDS: ['Uc5ca09cd5c8a92cf82baa77a923536e3', 'U8860417f5bbb6d6b0d00e472618d28bd'],  // 冰焰（陳仕瑄）、陳冰
-
-  // 本頁網址（用於 LINE Login 回調）
+  ADMIN_IDS: ['Uc5ca09cd5c8a92cf82baa77a923536e3', 'U8860417f5bbb6d6b0d00e472618d28bd'],
   REDIRECT_URI: 'https://chernben-git.github.io/taiwanigi-nodes/',
-
-  // 模擬模式（GAS_URL 未設定時啟用）
   DEMO_MODE: false,
 };
 
@@ -1013,7 +829,7 @@ let state = {
   nodes: [],
   filtered: [],
   stats: {},
-  user: null,      // { userId, displayName, pictureUrl }
+  user: null,
   isAdmin: false,
   votedNodes: new Set(JSON.parse(localStorage.getItem('votedNodes') || '[]')),
   map: null,
@@ -1033,17 +849,15 @@ const COUNTY_COLORS = {
 window.addEventListener('DOMContentLoaded', async () => {
   initNav();
   initMap();
-  // Loading 畫面最多等 2 秒，不管 API 成不成功都消失
   setTimeout(hideLoading, 2000);
   await handleLineCallback();
   restoreSession();
-  loadData(); // 背景載入，不阻塞 UI
+  loadData();
 });
 
 function hideLoading() {
   const el = document.getElementById('loadingScreen');
   if (!el) return;
-  el.style.transition = 'opacity 0.5s ease';
   el.style.opacity = '0';
   setTimeout(() => el.remove(), 600);
 }
@@ -1071,7 +885,7 @@ function goToPage(page) {
 }
 
 // ============================================================
-// API LAYER
+// API LAYER — 修正版：移除 no-cors fallback，讓錯誤正確傳回
 // ============================================================
 async function api(params, method = 'GET', body = null) {
   if (CONFIG.DEMO_MODE || !CONFIG.GAS_URL.includes('script.google.com')) {
@@ -1086,22 +900,19 @@ async function api(params, method = 'GET', body = null) {
       const res = await fetch(url, { cache: 'no-store' });
       return await res.json();
     } else {
+      // ★ 修正：直接 POST，不使用 no-cors fallback
       const payload = { ...body, line_user_id: state.user?.userId };
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' }, // ★ 用 text/plain 避免 CORS preflight
+        body: JSON.stringify(payload),
+      });
+      const text = await res.text();
       try {
-        const res = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-        return await res.json();
-      } catch(postErr) {
-        // 手機 CORS 限制時，改用 no-cors（無法讀回傳值）
-        await fetch(url, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: JSON.stringify(payload),
-        });
-        return { success: true };
+        return JSON.parse(text);
+      } catch(e) {
+        console.error('GAS response parse error:', text);
+        return { success: false, error: 'GAS 回傳非 JSON：' + text.substring(0, 100) };
       }
     }
   } catch (err) {
@@ -1111,7 +922,7 @@ async function api(params, method = 'GET', body = null) {
 }
 
 // ============================================================
-// DEMO DATA（GAS 未接時使用）
+// DEMO DATA
 // ============================================================
 const DEMO_NODES = [
   { node_id:'NODE-001', name:'台灣基督長老教會彰化中會', address:'彰化縣彰化市光復路42號', county:'彰化縣', type:'宗教場所', status:'approved', score:92, score_sign:85, score_service:90, score_material:95, score_evidence:88, votes:47, lat:24.080, lng:120.541, description:'彰化中會長期推動台語禮拜，所有週報皆以台語漢字印刷。', submitted_at:'2024-01-10', photo_urls:[] },
@@ -1125,16 +936,6 @@ const DEMO_NODES = [
 
 function demoApi(params, body) {
   const action = params?.action || body?.action;
-  if (action === 'getStats') {
-    const approved = DEMO_NODES.filter(n => n.status === 'approved');
-    const counties = {};
-    const types = {};
-    approved.forEach(n => {
-      counties[n.county] = (counties[n.county]||0)+1;
-      types[n.type] = (types[n.type]||0)+1;
-    });
-    return { success:true, stats:{ total:DEMO_NODES.length, approved:approved.length, pending:DEMO_NODES.filter(n=>n.status==='pending').length, total_votes:DEMO_NODES.reduce((s,n)=>s+n.votes,0), counties, types } };
-  }
   if (action === 'getNodes') {
     let nodes = [...DEMO_NODES];
     if (params?.status) nodes = nodes.filter(n => n.status === params.status);
@@ -1142,10 +943,11 @@ function demoApi(params, body) {
   }
   if (action === 'getNode') return { success:true, node: DEMO_NODES.find(n=>n.node_id===params.node_id) };
   if (action === 'vote') {
-    const n = DEMO_NODES.find(n=>n.node_id===body?.node_id||params?.node_id);
+    const n = DEMO_NODES.find(n=>n.node_id===(body?.node_id||params?.node_id));
     if (n) n.votes++;
     return { success:true };
   }
+  if (action === 'uploadPhoto') return { success:true, url:'https://via.placeholder.com/200' };
   if (action === 'approveNode') {
     const n = DEMO_NODES.find(n=>n.node_id===body?.node_id);
     if (n) { n.status='approved'; Object.assign(n,body.scores||{}); }
@@ -1163,9 +965,7 @@ function demoApi(params, body) {
 // LOAD DATA
 // ============================================================
 async function loadData() {
-  // 只發一次 request，從 nodes 計算統計（避免 LINE WebView 被限速）
   const nodesRes = await api({ action:'getNodes' });
-
   if (nodesRes.success) {
     state.nodes = nodesRes.nodes;
     state.filtered = [...state.nodes];
@@ -1174,7 +974,6 @@ async function loadData() {
     populateDetailSelect();
     setApiStatus(true);
 
-    // 直接從 nodes 計算統計，不需額外 request
     const nodes    = state.nodes;
     const approved = nodes.filter(n => n.status === 'approved');
     const pending  = nodes.filter(n => n.status === 'pending');
@@ -1211,7 +1010,7 @@ function setApiStatus(ok, errMsg) {
   const txt = document.getElementById('apiStatusText');
   if (ok) {
     dot.className = 'api-status-dot online';
-    txt.textContent = CONFIG.GAS_URL.includes('script.google.com') ? '已連接 Google Sheets 資料庫' : '示範模式（尚未接 GAS）';
+    txt.textContent = CONFIG.GAS_URL.includes('script.google.com') ? '已連接 Google Sheets 資料庫' : '示範模式';
   } else {
     dot.className = 'api-status-dot error';
     txt.textContent = '連接失敗：' + (errMsg || '請檢查 GAS 設定');
@@ -1219,7 +1018,7 @@ function setApiStatus(ok, errMsg) {
 }
 
 // ============================================================
-// NODE LIST (MAP SIDEBAR)
+// NODE LIST
 // ============================================================
 function renderNodeList() {
   const list = document.getElementById('nodeList');
@@ -1314,7 +1113,7 @@ function renderMapMarkers(nodes) {
         <div style="font-size:0.72rem;color:#7a6a50;margin-bottom:6px">${node.address}</div>
         ${node.status==='approved'
           ? `<div style="font-size:0.78rem">友善指數：<strong style="color:#3d6b4f">${node.score}</strong> ／ 票數：${node.votes}</div>`
-          : `<span style="background:#e8f4e8;color:#4a8c4a;font-size:0.7rem;padding:2px 6px;border-radius:4px">${n.status==='growing'?'🌱 培育中':'⏳ 待審核'}</span>`}
+          : `<span style="background:#e8f4e8;color:#4a8c4a;font-size:0.7rem;padding:2px 6px;border-radius:4px">⏳ 待審核</span>`}
         <div style="margin-top:8px">
           <button onclick="jumpToDetail('${node.node_id}')" style="background:#3d6b4f;color:white;border:none;border-radius:5px;padding:4px 9px;font-size:0.76rem;cursor:pointer;font-family:'Noto Sans TC',sans-serif">查看詳情</button>
         </div>
@@ -1345,7 +1144,6 @@ function renderRanking() {
     `).join('')
     : '<tr><td colspan="7"><div class="empty-state"><div class="icon">🏆</div><p>尚無上架節點</p></div></td></tr>';
 
-  // County chart
   const counties = state.stats.counties || {};
   const sorted = Object.entries(counties).sort((a,b)=>b[1]-a[1]).slice(0,6);
   const max = Math.max(...sorted.map(s=>s[1]),1);
@@ -1356,8 +1154,8 @@ function renderRanking() {
     </div>
   `).join('') || '<p style="font-size:0.8rem;color:var(--text-muted)">暫無資料</p>';
 
-  // Type chart
-  const types = state.stats.types || {};
+  const types = {};
+  state.nodes.filter(n=>n.status==='approved').forEach(n => { if(n.type) types[n.type]=(types[n.type]||0)+1; });
   const typeColors = { '宗教場所':'#3d6b4f','商業店家':'#c4622d','文化場所':'#c9983a','政府機關':'#4a7fa5','教育機構':'#7a4faa' };
   document.getElementById('typeChart').innerHTML = Object.entries(types).sort((a,b)=>b[1]-a[1]).map(([t,v]) => `
     <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.45rem;font-size:0.8rem">
@@ -1370,16 +1168,13 @@ function renderRanking() {
 
 async function vote(nodeId, btn) {
   if (!state.user) {
-    // 未登入：顯示提示，引導到 LINE Bot 投票
     const node = state.nodes.find(n=>n.node_id===nodeId);
-    const name = node ? node.name : nodeId;
-    showVoteModal(nodeId, name);
+    showVoteModal(nodeId, node ? node.name : nodeId);
     return;
   }
   if (state.votedNodes.has(nodeId)) { toast('您已投過此節點', 'err'); return; }
-
   btn.disabled = true;
-  const res = await api({ action:'vote', node_id: nodeId }, 'POST', { action:'vote', node_id: nodeId });
+  const res = await api({}, 'POST', { action:'vote', node_id: nodeId });
   if (res.success || res.new_votes) {
     state.votedNodes.add(nodeId);
     localStorage.setItem('votedNodes', JSON.stringify([...state.votedNodes]));
@@ -1411,7 +1206,6 @@ function jumpToDetail(id) {
 
 async function loadDetail(id) {
   if (!id) { document.getElementById('detailContent').innerHTML = '<div class="empty-state"><div class="icon">📌</div><p>請選擇節點</p></div>'; return; }
-
   document.getElementById('detailContent').innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
   const res = await api({ action:'getNode', node_id: id });
   if (!res.success || !res.node) {
@@ -1443,7 +1237,6 @@ async function loadDetail(id) {
                 </div>
               </div>` : ''}
           </div>
-
           <div class="info-grid-2">
             <div class="info-field"><label>📍 地址</label><span>${n.address}</span></div>
             <div class="info-field"><label>🗺️ 縣市</label><span>${n.county}</span></div>
@@ -1451,7 +1244,6 @@ async function loadDetail(id) {
             <div class="info-field"><label>👍 票數</label><span>${n.votes}</span></div>
             <div class="info-field" style="grid-column:1/-1"><label>📝 說明</label><span>${n.description || '（無）'}</span></div>
           </div>
-
           ${n.status==='approved' ? `
             <div class="score-breakdown">
               <div class="sb-label">評分明細</div>
@@ -1468,7 +1260,6 @@ async function loadDetail(id) {
                 </div>`).join('')}
             </div>
           ` : ''}
-
           <div class="ai-box">
             <h4>🤖 AI 台語標示分析</h4>
             ${n.score_evidence > 0
@@ -1477,13 +1268,16 @@ async function loadDetail(id) {
           </div>
         </div>
       </div>
-
       <div class="detail-side">
         <div class="card side-card">
           <h4>📸 現場照片</h4>
           <div class="photo-grid" id="photoGrid-${n.node_id}">
             ${(n.photo_urls||[]).map(url => `<div class="photo-slot"><img src="${url}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`).join('')}
-            ${state.user ? Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map((_,i) => `<label class="photo-slot" title="新增照片" style="cursor:pointer"><input type="file" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋</label>`).join('') : Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() => `<div class="photo-slot">＋</div>`).join('')}
+            ${state.user ? Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() =>
+              `<label class="photo-slot" title="新增照片" style="cursor:pointer">
+                <input type="file" accept="image/*" capture="environment" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋
+              </label>`).join('')
+            : Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() => `<div class="photo-slot">＋</div>`).join('')}
           </div>
         </div>
         <div class="card side-card">
@@ -1511,9 +1305,7 @@ async function loadDetail(id) {
               ${n.status==='pending' ? `
                 <button class="btn btn-primary btn-sm btn-full" onclick="quickApprove('${n.node_id}')">✅ 快速核准</button>
                 <button class="btn btn-earth btn-sm btn-full" onclick="quickReject('${n.node_id}')">❌ 退回</button>
-              ` : `
-                <div style="font-size:0.78rem;color:var(--text-muted)">此節點狀態：${n.status}</div>
-              `}
+              ` : `<div style="font-size:0.78rem;color:var(--text-muted)">此節點狀態：${n.status}</div>`}
             </div>
           </div>
         ` : ''}
@@ -1563,7 +1355,6 @@ async function adminSection(section, btn) {
           </div>
           <div class="pi-meta">📍 ${n.address} ｜ 🏷️ ${n.type} ｜ 📅 ${n.submitted_at ? new Date(n.submitted_at).toLocaleDateString('zh-TW') : ''}</div>
           <div class="pi-desc">${n.description||''}</div>
-
           <div class="score-inputs">
             ${[['總分','score'],['標示','score_sign'],['服務','score_service'],['文宣','score_material'],['AI','score_evidence']].map(([label,key])=>`
               <div class="score-input-box">
@@ -1571,7 +1362,6 @@ async function adminSection(section, btn) {
                 <input type="text" id="${n.node_id}-${key}" placeholder="0-100" value="80">
               </div>`).join('')}
           </div>
-
           <div class="action-row">
             <button class="btn btn-primary btn-sm" onclick="adminApprove('${n.node_id}')">✅ 核准上架</button>
             <input class="reject-input" id="reject-${n.node_id}" placeholder="退回原因（必填）">
@@ -1629,7 +1419,6 @@ async function adminSection(section, btn) {
         <div class="card setting-card" style="grid-column:1/-1">
           <h3>📋 Sheets 欄位對應</h3>
           <div class="code-box">A:node_id  B:name  C:address  D:county  E:type  F:status  G:score  H:score_sign  I:score_service  J:score_material  K:score_evidence  L:votes  M:lat  N:lng  O:description  P:submitted_by  Q:submitted_at  R:reviewed_by  S:reviewed_at  T:reject_reason  U:photo_urls  V:voters</div>
-          <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.6rem">在 GAS 編輯器執行 <code style="background:var(--rice-dark);padding:0 3px;border-radius:3px">initSheetHeaders()</code> 可自動建立標題列。</p>
         </div>
       </div>`;
   }
@@ -1644,7 +1433,7 @@ async function adminApprove(nodeId) {
   btn.disabled = true; btn.textContent = '處理中…';
   const res = await api({}, 'POST', { action:'approveNode', node_id: nodeId, scores });
   if (res.success) {
-    toast(`✅ 節點已核准上架`);
+    toast('✅ 節點已核准上架');
     document.getElementById('pi-'+nodeId)?.remove();
     await loadData();
   } else { toast(res.error||'操作失敗','err'); btn.disabled=false; btn.textContent='✅ 核准上架'; }
@@ -1672,39 +1461,21 @@ function saveGasUrl() {
 // LINE LOGIN
 // ============================================================
 function showVoteModal(nodeId, name) {
-  // 移除舊的 modal
   const old = document.getElementById('voteModal');
   if (old) old.remove();
-
   const modal = document.createElement('div');
   modal.id = 'voteModal';
-  modal.style.cssText = `
-    position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;
-    display:flex;align-items:center;justify-content:center;padding:20px;
-  `;
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
   modal.innerHTML = `
     <div style="background:#fff;border-radius:16px;padding:28px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
       <div style="font-size:2rem;margin-bottom:12px">🗳️</div>
       <div style="font-weight:700;font-size:1.05rem;margin-bottom:8px;color:#222">為「${name}」投票</div>
-      <div style="color:#666;font-size:0.88rem;margin-bottom:20px;line-height:1.6">
-        在 LINE Bot 輸入以下指令即可投票：
-      </div>
-      <div style="background:#f0f7f3;border-radius:10px;padding:12px 16px;font-family:monospace;font-size:1rem;color:#3d6b4f;font-weight:700;margin-bottom:20px;letter-spacing:1px;">
-        投票 ${nodeId}
-      </div>
+      <div style="color:#666;font-size:0.88rem;margin-bottom:20px;line-height:1.6">在 LINE Bot 輸入以下指令即可投票：</div>
+      <div style="background:#f0f7f3;border-radius:10px;padding:12px 16px;font-family:monospace;font-size:1rem;color:#3d6b4f;font-weight:700;margin-bottom:20px;letter-spacing:1px;">投票 ${nodeId}</div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button onclick="window.open('https://line.me/R/oaMessage/@台語文統計BOT','_blank')" 
-          style="background:#06c755;color:#fff;border:none;border-radius:10px;padding:12px;font-size:0.95rem;font-weight:700;cursor:pointer;">
-          🟢 開啟 LINE Bot 投票
-        </button>
-        <button onclick="navigator.clipboard&&navigator.clipboard.writeText('投票 ${nodeId}').then(()=>alert('已複製！去 LINE Bot 貼上'))"
-          style="background:#f0f7f3;color:#3d6b4f;border:1px solid #3d6b4f;border-radius:10px;padding:10px;font-size:0.88rem;cursor:pointer;">
-          📋 複製指令
-        </button>
-        <button onclick="document.getElementById('voteModal').remove()"
-          style="background:none;color:#999;border:none;font-size:0.85rem;cursor:pointer;padding:6px;">
-          關閉
-        </button>
+        <button onclick="window.open('https://line.me/R/oaMessage/@台語文統計BOT','_blank')" style="background:#06c755;color:#fff;border:none;border-radius:10px;padding:12px;font-size:0.95rem;font-weight:700;cursor:pointer;">🟢 開啟 LINE Bot 投票</button>
+        <button onclick="navigator.clipboard&&navigator.clipboard.writeText('投票 ${nodeId}').then(()=>alert('已複製！去 LINE Bot 貼上'))" style="background:#f0f7f3;color:#3d6b4f;border:1px solid #3d6b4f;border-radius:10px;padding:10px;font-size:0.88rem;cursor:pointer;">📋 複製指令</button>
+        <button onclick="document.getElementById('voteModal').remove()" style="background:none;color:#999;border:none;font-size:0.85rem;cursor:pointer;padding:6px;">關閉</button>
       </div>
     </div>
   `;
@@ -1714,11 +1485,10 @@ function showVoteModal(nodeId, name) {
 
 function lineLogin() {
   if (!CONFIG.LINE_CHANNEL_ID || CONFIG.LINE_CHANNEL_ID.includes('YOUR_')) {
-    // Demo mode: 模擬一般使用者
     state.user = { userId: 'U_demo_user', displayName: '示範用戶', pictureUrl: '' };
     state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
     updateAuthUI();
-    toast('🟢 已以示範帳號登入（請設定真實 LINE Channel ID）');
+    toast('🟢 已以示範帳號登入');
     return;
   }
   const state_param = Math.random().toString(36).substr(2);
@@ -1739,16 +1509,10 @@ async function handleLineCallback() {
   const code = params.get('code');
   const stateParam = params.get('state');
   const savedState = sessionStorage.getItem('line_state');
-
   if (!code) return;
   if (stateParam !== savedState) { toast('LINE 登入驗證失敗', 'err'); return; }
-
-  // 清除 URL 參數
   window.history.replaceState({}, '', window.location.pathname);
   sessionStorage.removeItem('line_state');
-
-  // 用 code 換 token（需透過後端，避免 client_secret 外洩）
-  // 這裡呼叫 GAS 做 token exchange
   const res = await fetch(CONFIG.GAS_URL + '?action=lineTokenExchange&code=' + code + '&redirect_uri=' + encodeURIComponent(CONFIG.REDIRECT_URI));
   try {
     const data = await res.json();
@@ -1773,7 +1537,6 @@ function restoreSession() {
       if (state.isAdmin) document.getElementById('adminNavBtn').style.display = '';
     } catch(e) {}
   }
-  // 檢查 URL ?node= 參數直接跳節點詳情
   const urlNode = new URLSearchParams(window.location.search).get('node');
   if (urlNode) { goToPage('detail'); document.getElementById('detailSelect').value = urlNode; loadDetail(urlNode); }
 }
@@ -1814,48 +1577,79 @@ function toast(msg, type = 'ok') {
 }
 
 // ============================================================
-// 照片上傳
+// 照片上傳 — ★ 修正版
 // ============================================================
-function triggerPhotoUpload(nodeId) {
-  if (!state.user) { toast('請先登入才能上傳照片', 'err'); return; }
-  document.getElementById('photoInput-' + nodeId)?.click();
+
+// 壓縮圖片到最大 800px，JPEG 0.75 品質
+function compressImage(file, maxSize = 800, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let w = img.width, h = img.height;
+      if (w > maxSize || h > maxSize) {
+        if (w > h) { h = Math.round(h * maxSize / w); w = maxSize; }
+        else       { w = Math.round(w * maxSize / h); h = maxSize; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('壓縮失敗')), 'image/jpeg', quality);
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 }
 
 async function uploadPhoto(nodeId, input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { toast('照片不能超過 5MB', 'err'); return; }
 
-  toast('📤 上傳中…');
+  // 原始大小檢查
+  if (file.size > 20 * 1024 * 1024) { toast('照片不能超過 20MB', 'err'); input.value=''; return; }
+
+  toast('📤 壓縮並上傳中…');
+
   try {
-    const base64 = await fileToBase64(file);
+    // 1. 壓縮圖片
+    const compressed = await compressImage(file);
+    console.log(`原始: ${(file.size/1024).toFixed(0)}KB → 壓縮後: ${(compressed.size/1024).toFixed(0)}KB`);
+
+    // 2. 轉 base64
+    const base64 = await blobToBase64(compressed);
+
+    // 3. 呼叫 GAS API
     const res = await api({}, 'POST', {
       action: 'uploadPhoto',
       node_id: nodeId,
       image_data: base64,
-      mime_type: file.type,
+      mime_type: 'image/jpeg',
       line_user_id: state.user?.userId,
     });
+
     if (res.success) {
       toast('✅ 照片上傳成功！');
-      // 重新載入節點詳情
       await loadDetail(nodeId);
     } else {
       toast('上傳失敗：' + (res.error || '未知錯誤'), 'err');
+      console.error('uploadPhoto error:', res);
     }
   } catch(e) {
     toast('上傳失敗：' + e.message, 'err');
+    console.error('uploadPhoto exception:', e);
   }
-  input.value = '';
-}
 
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+  input.value = '';
 }
 
 </script>
