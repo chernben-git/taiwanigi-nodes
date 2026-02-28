@@ -1481,10 +1481,11 @@ async function loadDetail(id) {
       <div class="detail-side">
         <div class="card side-card">
           <h4>📸 現場照片</h4>
-          <div class="photo-grid">
+          <div class="photo-grid" id="photoGrid-${n.node_id}">
             ${(n.photo_urls||[]).map(url => `<div class="photo-slot"><img src="${url}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`).join('')}
-            ${Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill('<div class="photo-slot" title="新增照片">＋</div>').join('')}
+            ${Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map((_,i) => `<div class="photo-slot" title="新增照片" onclick="triggerPhotoUpload('${n.node_id}')">＋</div>`).join('')}
           </div>
+          <input type="file" id="photoInput-${n.node_id}" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">
         </div>
         <div class="card side-card">
           <h4>⚡ 操作</h4>
@@ -1812,6 +1813,52 @@ function toast(msg, type = 'ok') {
   wrap.appendChild(el);
   setTimeout(() => el.remove(), 3000);
 }
+
+// ============================================================
+// 照片上傳
+// ============================================================
+function triggerPhotoUpload(nodeId) {
+  if (!state.user) { toast('請先登入才能上傳照片', 'err'); return; }
+  document.getElementById('photoInput-' + nodeId)?.click();
+}
+
+async function uploadPhoto(nodeId, input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('照片不能超過 5MB', 'err'); return; }
+
+  toast('📤 上傳中…');
+  try {
+    const base64 = await fileToBase64(file);
+    const res = await api({}, 'POST', {
+      action: 'uploadPhoto',
+      node_id: nodeId,
+      image_data: base64,
+      mime_type: file.type,
+      line_user_id: state.user?.userId,
+    });
+    if (res.success) {
+      toast('✅ 照片上傳成功！');
+      // 重新載入節點詳情
+      await loadDetail(nodeId);
+    } else {
+      toast('上傳失敗：' + (res.error || '未知錯誤'), 'err');
+    }
+  } catch(e) {
+    toast('上傳失敗：' + e.message, 'err');
+  }
+  input.value = '';
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 </script>
 </body>
 </html>
