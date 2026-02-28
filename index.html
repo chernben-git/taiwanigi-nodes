@@ -1483,9 +1483,8 @@ async function loadDetail(id) {
           <h4>📸 現場照片</h4>
           <div class="photo-grid" id="photoGrid-${n.node_id}">
             ${(n.photo_urls||[]).map(url => `<div class="photo-slot"><img src="${url}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`).join('')}
-            ${Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map((_,i) => `<div class="photo-slot" title="新增照片" onclick="triggerPhotoUpload('${n.node_id}')">＋</div>`).join('')}
+            ${state.user ? Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map((_,i) => `<label class="photo-slot" title="新增照片" style="cursor:pointer"><input type="file" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋</label>`).join('') : Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() => `<div class="photo-slot">＋</div>`).join('')}
           </div>
-          <input type="file" id="photoInput-${n.node_id}" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">
         </div>
         <div class="card side-card">
           <h4>⚡ 操作</h4>
