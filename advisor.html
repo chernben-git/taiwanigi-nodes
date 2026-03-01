@@ -447,22 +447,24 @@ let state = {
 };
 
 // ============================================================
-// DEMO 資料（GAS 後端接通前使用）
+// API 呼叫
 // ============================================================
-const DEMO = {
-  socials: [
-    { id:'SOC001', name:'台語文創意園區', region:'彰化', memberCount:12, activeCount:8,  silentCount:4 },
-    { id:'SOC002', name:'彰化教會',       region:'彰化', memberCount:20, activeCount:15, silentCount:5 },
-    { id:'SOC003', name:'員東路教會',     region:'彰化', memberCount:9,  activeCount:6,  silentCount:3 },
-  ],
-  silentMembers: [
-    { name:'王小明', social:'彰化教會',       days:14 },
-    { name:'李阿花', social:'員東路教會',     days:10 },
-    { name:'陳大偉', social:'台語文創意園區', days:9  },
-    { name:'張美玲', social:'彰化教會',       days:8  },
-    { name:'林志成', social:'台語文創意園區', days:7  },
-  ],
-};
+async function apiGet(params) {
+  const q = new URLSearchParams({ ...params, line_user_id: state.user?.userId || '' });
+  const res = await fetch(CONFIG.GAS_URL + '?' + q.toString(), { cache: 'no-store' });
+  return await res.json();
+}
+
+async function apiPost(body) {
+  const res = await fetch(CONFIG.GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ ...body, line_user_id: state.user?.userId || '' }),
+  });
+  const text = await res.text();
+  try { return JSON.parse(text); }
+  catch(e) { return { success: false, error: text }; }
+}
 
 // ============================================================
 // INIT
@@ -504,67 +506,82 @@ function onLoginSuccess() {
 // ============================================================
 // DASHBOARD
 // ============================================================
-function loadDashboard() {
-  const data = DEMO;
+async function loadDashboard() {
+  // 顯示載入中
+  document.getElementById('socialList').innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
+  document.getElementById('silentList').innerHTML = '<div class="loading-row"><div class="spinner"></div></div>';
 
-  // KPI
-  const totalMembers = data.socials.reduce((s, x) => s + x.memberCount, 0);
-  const totalActive  = data.socials.reduce((s, x) => s + x.activeCount, 0);
-  const totalSilent  = data.socials.reduce((s, x) => s + x.silentCount, 0);
-  animateNum('kpi-socials', data.socials.length);
-  animateNum('kpi-members', totalMembers);
-  animateNum('kpi-active',  totalActive);
-  animateNum('kpi-silent',  totalSilent);
+  try {
+    const data = await apiGet({ action: 'getAdvisorData' });
 
-  // 社團列表
-  const listEl = document.getElementById('socialList');
-  listEl.innerHTML = data.socials.map(s => {
-    const pct = Math.round(s.activeCount / s.memberCount * 100);
-    return `
-      <div class="social-card">
-        <div class="social-card-head">
-          <div class="social-card-name">${s.name}</div>
-          <div class="social-card-region">📍 ${s.region}</div>
-        </div>
-        <div class="progress-wrap">
-          <div class="progress-label">活躍率</div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width:${pct}%"></div>
+    if (!data.success) {
+      toast('載入失敗：' + (data.error || '請稍後再試'), 'err');
+      return;
+    }
+
+    // KPI
+    animateNum('kpi-socials', data.kpi.socialCount);
+    animateNum('kpi-members', data.kpi.memberCount);
+    animateNum('kpi-active',  data.kpi.activeCount);
+    animateNum('kpi-silent',  data.kpi.silentCount);
+
+    // 社團列表
+    const listEl = document.getElementById('socialList');
+    if (!data.socials.length) {
+      listEl.innerHTML = '<div class="empty-state"><div class="icon">🏘️</div><p>尚未被指派社團</p></div>';
+    } else {
+      listEl.innerHTML = data.socials.map(s => {
+        const pct = s.memberCount > 0 ? Math.round(s.activeCount / s.memberCount * 100) : 0;
+        return `
+          <div class="social-card">
+            <div class="social-card-head">
+              <div class="social-card-name">${s.name}</div>
+              <div class="social-card-region">📍 ${s.region}</div>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-label">活躍率</div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:${pct}%"></div>
+              </div>
+              <div class="progress-pct">${pct}%</div>
+            </div>
+            <div class="stat-chips">
+              <div class="chip">👥 成員 ${s.memberCount} 人</div>
+              <div class="chip">✅ 活躍 ${s.activeCount} 人</div>
+              <div class="chip chip-warn">😴 待督促 ${s.silentCount} 人</div>
+            </div>
           </div>
-          <div class="progress-pct">${pct}%</div>
-        </div>
-        <div class="stat-chips">
-          <div class="chip">👥 成員 ${s.memberCount} 人</div>
-          <div class="chip">✅ 活躍 ${s.activeCount} 人</div>
-          <div class="chip chip-warn">😴 待督促 ${s.silentCount} 人</div>
-        </div>
-      </div>
-    `;
-  }).join('');
+        `;
+      }).join('');
+    }
 
-  // 待督促名單
-  const silentEl = document.getElementById('silentList');
-  if (!data.silentMembers.length) {
-    silentEl.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><p>目前沒有待督促成員</p></div>';
-  } else {
-    silentEl.innerHTML = data.silentMembers.map(m => `
-      <div class="silent-row">
-        <div>
-          <div class="silent-name">${m.name}</div>
-          <div class="silent-social">${m.social}</div>
+    // 待督促名單
+    const silentEl = document.getElementById('silentList');
+    if (!data.silentMembers.length) {
+      silentEl.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><p>目前沒有待督促成員</p></div>';
+    } else {
+      silentEl.innerHTML = data.silentMembers.map(m => `
+        <div class="silent-row">
+          <div>
+            <div class="silent-name">${m.name}</div>
+            <div class="silent-social">${m.social}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.3rem">
+            <span class="days-badge">${m.days > 999 ? '未活動' : m.days + '天'}</span>
+            <button class="btn btn-ghost btn-sm" onclick="pushOne('${m.lineId}','${m.name}')">📢</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:0.3rem">
-          <span class="days-badge">${m.days}天</span>
-          <button class="btn btn-ghost btn-sm" onclick="pushOne('${m.name}')">📢</button>
-        </div>
-      </div>
-    `).join('');
+      `).join('');
+    }
+
+    // 邀請社團選單
+    const sel = document.getElementById('inviteSelect');
+    sel.innerHTML = '<option value="">— 選擇社團 —</option>' +
+      data.socials.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+
+  } catch(e) {
+    toast('網路錯誤：' + e.message, 'err');
   }
-
-  // 邀請社團選單
-  const sel = document.getElementById('inviteSelect');
-  sel.innerHTML = '<option value="">— 選擇社團 —</option>' +
-    data.socials.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
 }
 
 function animateNum(id, target) {
@@ -601,12 +618,23 @@ function copyLink() {
 // ============================================================
 // 督促
 // ============================================================
-function pushOne(name) {
-  toast(`📢 已傳送督促通知給 ${name}（Demo 模式）`);
+async function pushOne(targetLineId, name) {
+  try {
+    const res = await apiPost({ action: 'advisorPushOne', target_line_id: targetLineId, member_name: name });
+    if (res.success) toast(`📢 已傳送督促通知給 ${name}`);
+    else toast('傳送失敗：' + (res.error || '請稍後再試'), 'err');
+  } catch(e) { toast('網路錯誤', 'err'); }
 }
 
-function pushAll() {
-  toast('📢 已傳送督促通知給所有待督促成員（Demo 模式）');
+async function pushAll() {
+  const btn = event.target;
+  btn.disabled = true; btn.textContent = '傳送中…';
+  try {
+    const res = await apiPost({ action: 'advisorPushAll' });
+    if (res.success) toast(`📢 已傳送督促通知給 ${res.sentCount} 位成員`);
+    else toast('傳送失敗：' + (res.error || '請稍後再試'), 'err');
+  } catch(e) { toast('網路錯誤', 'err'); }
+  btn.disabled = false; btn.textContent = '📢 全部發送督促通知';
 }
 
 // ============================================================
