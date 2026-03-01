@@ -588,6 +588,142 @@ textarea.edit-input { resize:vertical; min-height:60px; }
   .map-layout { height: auto; }
   .settings-grid { grid-template-columns: 1fr; }
   nav button { padding: 0 0.6rem; font-size: 0.75rem; }
+  .advisor-layout { grid-template-columns: 1fr; }
+  .advisor-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   輔導員儀表板
+   ============================================================ */
+.advisor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.advisor-kpi {
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px var(--shadow);
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.advisor-kpi-icon {
+  font-size: 2rem;
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.kpi-bamboo { background: var(--bamboo-pale); }
+.kpi-gold   { background: #fdf3d9; }
+.kpi-earth  { background: var(--earth-pale); }
+.advisor-kpi-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--bamboo); line-height: 1;
+}
+.advisor-kpi-label {
+  font-size: 0.72rem; color: var(--text-muted); margin-top: 3px;
+}
+.advisor-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.2rem;
+}
+.social-card {
+  background: white;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.7rem;
+  transition: box-shadow 0.18s;
+}
+.social-card:hover { box-shadow: 0 3px 12px var(--shadow); }
+.social-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+.social-card-name {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700; font-size: 1rem; color: var(--text);
+}
+.social-card-region {
+  font-size: 0.72rem; color: var(--text-muted);
+  background: var(--rice-dark); padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+}
+.social-progress-wrap {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+.social-progress-bar {
+  flex: 1; height: 7px;
+  background: var(--rice-dark); border-radius: 4px; overflow: hidden;
+}
+.social-progress-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--bamboo), var(--bamboo-light));
+  transition: width 0.8s ease;
+}
+.social-progress-pct {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem; color: var(--bamboo); font-weight: 700;
+  width: 32px; text-align: right;
+}
+.social-card-foot {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+.social-stat-chip {
+  font-size: 0.7rem; background: var(--rice);
+  border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.15rem 0.45rem;
+  color: var(--text-muted);
+}
+.silent-member-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--rice-dark);
+  font-size: 0.82rem;
+}
+.silent-member-row:last-child { border-bottom: none; }
+.silent-days {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem; color: var(--earth);
+  background: var(--earth-pale);
+  padding: 0.15rem 0.45rem; border-radius: 4px;
+}
+.invite-box {
+  background: linear-gradient(135deg, var(--bamboo-pale), var(--rice));
+  border-radius: 10px;
+  border: 1px solid var(--bamboo-pale);
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.invite-box h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 0.88rem; font-weight: 700;
+  color: var(--bamboo); margin-bottom: 0.6rem;
+}
+.invite-link-wrap {
+  display: flex; gap: 0.4rem; margin-bottom: 0.6rem;
+}
+.invite-link-wrap input {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem; background: white; flex: 1;
+}
+.qr-placeholder {
+  width: 100%; aspect-ratio: 1;
+  background: white; border-radius: 8px;
+  border: 1px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; color: var(--text-muted); margin-top: 0.5rem;
 }
 </style>
 </head>
@@ -619,6 +755,7 @@ textarea.edit-input { resize:vertical; min-height:60px; }
       <button data-page="ranking">🏆 排行榜</button>
       <button data-page="guide">📖 說明</button>
       <button data-page="detail">📊 節點詳情</button>
+      <button data-page="advisor" id="advisorNavBtn" style="display:none">👥 輔導員</button>
       <button data-page="admin" id="adminNavBtn" style="display:none">🔐 後台</button>
     </nav>
   </div>
@@ -819,6 +956,79 @@ textarea.edit-input { resize:vertical; min-height:60px; }
   </div>
 </div>
 
+<!-- 輔導員儀表板 -->
+<div id="page-advisor" class="page">
+  <div class="section-title">👥 輔導員儀表板</div>
+
+  <!-- KPI 總覽 -->
+  <div class="advisor-layout">
+    <div class="advisor-kpi">
+      <div class="advisor-kpi-icon kpi-bamboo">🏘️</div>
+      <div>
+        <div class="advisor-kpi-num" id="kpi-socials">—</div>
+        <div class="advisor-kpi-label">負責社團數</div>
+      </div>
+    </div>
+    <div class="advisor-kpi">
+      <div class="advisor-kpi-icon kpi-gold">👨‍👩‍👧</div>
+      <div>
+        <div class="advisor-kpi-num" id="kpi-members">—</div>
+        <div class="advisor-kpi-label">社團成員總數</div>
+      </div>
+    </div>
+    <div class="advisor-kpi">
+      <div class="advisor-kpi-icon kpi-earth">😴</div>
+      <div>
+        <div class="advisor-kpi-num" id="kpi-silent">—</div>
+        <div class="advisor-kpi-label">待督促成員</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主體 -->
+  <div class="advisor-grid">
+    <!-- 左：社團列表 -->
+    <div>
+      <div class="section-title">🏘️ 我的社團</div>
+      <div id="advisorSocialList">
+        <div class="loading-row"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- 右：待督促 + 邀請 -->
+    <div style="display:flex;flex-direction:column;gap:0.8rem;">
+
+      <!-- 待督促名單 -->
+      <div class="card side-card">
+        <h4>😴 待督促成員 <span style="font-size:0.72rem;color:var(--text-muted);font-weight:400">（7天以上未活動）</span></h4>
+        <div id="advisorSilentList">
+          <div style="color:var(--text-muted);font-size:0.82rem;text-align:center;padding:1rem">載入中…</div>
+        </div>
+        <button class="btn btn-earth btn-sm btn-full" style="margin-top:0.8rem" onclick="advisorPushAll()">
+          📢 全部發送督促通知
+        </button>
+      </div>
+
+      <!-- 邀請功能 -->
+      <div class="card side-card">
+        <h4>🔗 邀請成員加入</h4>
+        <div class="invite-box">
+          <h4>選擇社團產生邀請連結</h4>
+          <select id="inviteSocialSelect" style="margin-bottom:0.6rem" onchange="generateInviteLink()">
+            <option value="">— 選擇社團 —</option>
+          </select>
+          <div class="invite-link-wrap">
+            <input type="text" id="inviteLinkInput" readonly placeholder="邀請連結會出現在這裡">
+            <button class="btn btn-primary btn-sm" onclick="copyInviteLink()">複製</button>
+          </div>
+          <div class="qr-placeholder" id="inviteQr">🔲</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div id="page-admin" class="page">
   <div class="admin-layout">
     <div class="card admin-nav">
@@ -904,6 +1114,7 @@ function initNav() {
       document.getElementById('page-' + btn.dataset.page).classList.add('active');
       if (btn.dataset.page === 'map') setTimeout(() => state.map?.invalidateSize(), 50);
       if (btn.dataset.page === 'ranking') renderRanking();
+      if (btn.dataset.page === 'advisor') loadAdvisorDashboard();
       if (btn.dataset.page === 'admin') { adminSection('pending', document.querySelector('.admin-nav-btn')); }
     });
   });
@@ -1622,6 +1833,7 @@ function restoreSession() {
       state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
       updateAuthUI();
       if (state.isAdmin) document.getElementById('adminNavBtn').style.display = '';
+      document.getElementById('advisorNavBtn').style.display = '';
     } catch(e) {}
   }
   const urlNode = new URLSearchParams(window.location.search).get('node');
@@ -1641,12 +1853,16 @@ function updateAuthUI() {
     (state.isAdmin ? ' <span class="admin-badge">管理員</span>' : '');
   document.getElementById('loginBtn').style.display = 'none';
   document.getElementById('logoutBtn').style.display = '';
+  if (state.isAdmin) document.getElementById('adminNavBtn').style.display = '';
+  // 登入後顯示輔導員按鈕（Demo階段：所有登入者皆可見；正式版換成 isAdvisor 判斷）
+  document.getElementById('advisorNavBtn').style.display = '';
 }
 
 function lineLogout() {
   state.user = null; state.isAdmin = false;
   localStorage.removeItem('lineUser');
   document.getElementById('adminNavBtn').style.display = 'none';
+  document.getElementById('advisorNavBtn').style.display = 'none';
   updateAuthUI();
   toast('已登出');
 }
@@ -1751,6 +1967,109 @@ async function uploadPhoto(nodeId, input) {
   }
 
   input.value = '';
+}
+
+// ============================================================
+// 輔導員儀表板
+// ============================================================
+
+const ADVISOR_DEMO = {
+  socials: [
+    { id:'SOC001', name:'台語文創意園區', region:'彰化', memberCount:12, activeCount:8, silentCount:4 },
+    { id:'SOC002', name:'彰化教會',       region:'彰化', memberCount:20, activeCount:15, silentCount:5 },
+    { id:'SOC003', name:'員東路教會',     region:'彰化', memberCount:9,  activeCount:6,  silentCount:3 },
+  ],
+  silentMembers: [
+    { name:'王小明', social:'彰化教會',       days:14 },
+    { name:'李阿花', social:'員東路教會',     days:10 },
+    { name:'陳大偉', social:'台語文創意園區', days:9  },
+    { name:'張美玲', social:'彰化教會',       days:8  },
+    { name:'林志成', social:'台語文創意園區', days:7  },
+  ],
+};
+
+function loadAdvisorDashboard() {
+  const data = ADVISOR_DEMO;
+
+  // KPI
+  const totalMembers = data.socials.reduce((s, x) => s + x.memberCount, 0);
+  const totalSilent  = data.socials.reduce((s, x) => s + x.silentCount, 0);
+  document.getElementById('kpi-socials').textContent = data.socials.length;
+  document.getElementById('kpi-members').textContent = totalMembers;
+  document.getElementById('kpi-silent').textContent  = totalSilent;
+
+  // 社團列表
+  const listEl = document.getElementById('advisorSocialList');
+  listEl.innerHTML = data.socials.map(s => {
+    const pct = Math.round(s.activeCount / s.memberCount * 100);
+    return `
+      <div class="social-card">
+        <div class="social-card-head">
+          <div class="social-card-name">${s.name}</div>
+          <div class="social-card-region">📍 ${s.region}</div>
+        </div>
+        <div class="social-progress-wrap">
+          <div class="social-progress-bar">
+            <div class="social-progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="social-progress-pct">${pct}%</div>
+        </div>
+        <div class="social-card-foot">
+          <div class="social-stat-chip">👥 成員 ${s.memberCount} 人</div>
+          <div class="social-stat-chip">✅ 活躍 ${s.activeCount} 人</div>
+          <div class="social-stat-chip" style="color:var(--earth)">😴 待督促 ${s.silentCount} 人</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 待督促名單
+  const silentEl = document.getElementById('advisorSilentList');
+  if (!data.silentMembers.length) {
+    silentEl.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><p>目前沒有待督促成員</p></div>';
+  } else {
+    silentEl.innerHTML = data.silentMembers.map(m => `
+      <div class="silent-member-row">
+        <div>
+          <div style="font-weight:600">${m.name}</div>
+          <div style="font-size:0.7rem;color:var(--text-muted)">${m.social}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem">
+          <div class="silent-days">${m.days}天</div>
+          <button class="btn btn-ghost btn-sm" onclick="advisorPushOne('${m.name}')">📢</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 邀請社團選單
+  const inviteSelect = document.getElementById('inviteSocialSelect');
+  inviteSelect.innerHTML = '<option value="">— 選擇社團 —</option>' +
+    data.socials.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+}
+
+function generateInviteLink() {
+  const val = document.getElementById('inviteSocialSelect').value;
+  if (!val) return;
+  const link = `${CONFIG.REDIRECT_URI}?join=${val}`;
+  document.getElementById('inviteLinkInput').value = link;
+  document.getElementById('inviteQr').innerHTML =
+    `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(link)}&choe=UTF-8"
+         style="width:100%;border-radius:6px" alt="QR Code">`;
+}
+
+function copyInviteLink() {
+  const val = document.getElementById('inviteLinkInput').value;
+  if (!val) { toast('請先選擇社團', 'err'); return; }
+  navigator.clipboard.writeText(val).then(() => toast('✅ 邀請連結已複製！'));
+}
+
+function advisorPushOne(name) {
+  toast(`📢 已傳送督促通知給 ${name}（Demo 模式）`);
+}
+
+function advisorPushAll() {
+  toast('📢 已傳送督促通知給所有待督促成員（Demo 模式）');
 }
 
 </script>
