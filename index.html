@@ -948,6 +948,7 @@ function demoApi(params, body) {
     return { success:true };
   }
   if (action === 'uploadPhoto') return { success:true, url:'https://via.placeholder.com/200' };
+  if (action === 'deletePhoto') return { success:true };
   if (action === 'approveNode') {
     const n = DEMO_NODES.find(n=>n.node_id===body?.node_id);
     if (n) { n.status='approved'; Object.assign(n,body.scores||{}); }
@@ -1272,12 +1273,8 @@ async function loadDetail(id) {
         <div class="card side-card">
           <h4>📸 現場照片</h4>
           <div class="photo-grid" id="photoGrid-${n.node_id}">
-            ${(n.photo_urls||[]).map(url => { const t = url.includes('uc?export=view&id=') ? url.replace('uc?export=view&id=','thumbnail?id=')+'&sz=w400' : url; return `<div class="photo-slot"><img src="${t}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`; }).join('')}
-            ${state.user ? Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() =>
-              `<label class="photo-slot" title="新增照片" style="cursor:pointer">
-                <input type="file" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋
-              </label>`).join('')
-            : Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() => `<div class="photo-slot">＋</div>`).join('')}
+            ${(n.photo_urls||[]).map(url => { const fileId = url.match(/[?&]id=([^&]+)/)?.[1]||''; const t = fileId ? `https://lh3.googleusercontent.com/d/${fileId}=w400` : url; return `<div class="photo-slot" style="position:relative"><img src="${t}" alt="節點照片" onerror="this.src='${url}';this.onerror=null"><br>${state.isAdmin && fileId ? `<button onclick="deletePhoto('${n.node_id}','${fileId}',this)" style="position:absolute;top:4px;right:4px;background:rgba(200,0,0,0.8);color:#fff;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px">✕</button>` : ''}</div>`; }).join('')}
+            ${state.user ? `<label class="photo-slot" title="新增照片" style="cursor:pointer"><input type="file" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋</label>` : ''}
           </div>
         </div>
         <div class="card side-card">
@@ -1609,6 +1606,20 @@ function blobToBase64(blob) {
     reader.onerror = reject;
     reader.readAsDataURL(blob);
   });
+}
+
+async function deletePhoto(nodeId, fileId, btn) {
+  if (!state.isAdmin) return;
+  if (!confirm('確定要刪除這張照片？')) return;
+  btn.disabled = true;
+  const res = await api({ action: 'deletePhoto', node_id: nodeId, file_id: fileId, line_user_id: state.user?.userId || '' });
+  if (res.success) {
+    btn.closest('.photo-slot').remove();
+    toast('✅ 照片已刪除');
+  } else {
+    toast('❌ 刪除失敗：' + (res.error || '未知錯誤'), 'error');
+    btn.disabled = false;
+  }
 }
 
 async function uploadPhoto(nodeId, input) {
