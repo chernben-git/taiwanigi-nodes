@@ -404,6 +404,9 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 }
 .photo-slot:hover { background: var(--bamboo-pale); }
 .photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+.edit-input { width:100%; box-sizing:border-box; padding:0.4rem 0.6rem; border:1px solid var(--border); border-radius:6px; font-size:0.82rem; font-family:inherit; background:#fff; color:var(--text); margin-top:2px; }
+.edit-input:focus { outline:none; border-color:var(--bamboo); }
+textarea.edit-input { resize:vertical; min-height:60px; }
 
 .guide-wrap { max-width: 720px; margin: 0 auto; padding: 1rem 0 3rem; }
 
@@ -1322,6 +1325,39 @@ async function loadDetail(id) {
             `}
           </div>
         </div>
+        ${(state.isAdmin || state.user?.userId === n.created_by || state.user?.userId === n.owner_line_id) ? `
+          <div class="card side-card" style="background:linear-gradient(135deg,#f0f7f3,var(--bamboo-pale))">
+            <h4 style="color:var(--bamboo)">✏️ 編輯節點資料</h4>
+            <div style="display:flex;flex-direction:column;gap:0.5rem">
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">節點名稱</label>
+                <input id="edit-name-${n.node_id}" class="edit-input" value="${n.name||''}" placeholder="節點名稱">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">簡介說明</label>
+                <textarea id="edit-desc-${n.node_id}" class="edit-input" rows="3" placeholder="台語服務說明...">${n.description||''}</textarea>
+              </div>
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">聯絡方式</label>
+                <input id="edit-contact-${n.node_id}" class="edit-input" value="${n.contact||''}" placeholder="電話、Email、LINE...">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">營業時間</label>
+                <input id="edit-hours-${n.node_id}" class="edit-input" value="${n.hours||''}" placeholder="例：週一至週六 9:00-18:00">
+              </div>
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">台語服務說明</label>
+                <textarea id="edit-taigi-${n.node_id}" class="edit-input" rows="2" placeholder="例：全台語接待、台語菜單...">${n.tai_gi_service||''}</textarea>
+              </div>
+              ${state.isAdmin ? `
+              <div>
+                <label style="font-size:0.75rem;color:var(--text-muted)">場域管理者 LINE ID</label>
+                <input id="edit-owner-${n.node_id}" class="edit-input" value="${n.owner_line_id||''}" placeholder="U...">
+              </div>` : ''}
+              <button class="btn btn-primary btn-sm btn-full" onclick="saveNodeEdit('${n.node_id}')">💾 儲存更新</button>
+            </div>
+          </div>
+        ` : ''}
         ${state.isAdmin ? `
           <div class="card side-card" style="background:linear-gradient(135deg,#fff8e8,var(--rice))">
             <h4 style="color:var(--gold)">🔐 管理員快速操作</h4>
@@ -1354,6 +1390,30 @@ async function quickReject(nodeId) {
 function shareNode(nodeId) {
   const url = window.location.origin + window.location.pathname + '?node=' + nodeId;
   navigator.clipboard?.writeText(url).then(() => toast('🔗 分享連結已複製！')).catch(() => toast('分享連結：'+url));
+}
+
+async function saveNodeEdit(nodeId) {
+  const get = id => document.getElementById(id)?.value ?? null;
+  const body = {
+    action:         'updateNode',
+    node_id:        nodeId,
+    name:           get(`edit-name-${nodeId}`),
+    description:    get(`edit-desc-${nodeId}`),
+    contact:        get(`edit-contact-${nodeId}`),
+    hours:          get(`edit-hours-${nodeId}`),
+    tai_gi_service: get(`edit-taigi-${nodeId}`),
+  };
+  const ownerInput = get(`edit-owner-${nodeId}`);
+  if (ownerInput !== null) body.owner_line_id = ownerInput;
+
+  const res = await api(null, 'POST', body);
+  if (res.success) {
+    toast('✅ 節點資料已更新！');
+    await loadData();
+    loadDetail(nodeId);
+  } else {
+    toast('❌ 更新失敗：' + (res.error || '未知錯誤'), 'err');
+  }
 }
 
 // ============================================================
