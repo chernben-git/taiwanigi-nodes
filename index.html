@@ -67,9 +67,23 @@ body::after {
 }
 .loading-sub {
   color: var(--gold-light);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.loading-motto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
   margin-bottom: 2.5rem;
+}
+.loading-motto-line {
+  color: rgba(255,255,255,0.75);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
 }
 .loading-bar-wrap {
   width: 200px; height: 3px;
@@ -572,6 +586,12 @@ tbody td { padding: 0.7rem 1rem; vertical-align: middle; }
 <div id="loadingScreen">
   <div class="loading-logo">咱兜的台語</div>
   <div class="loading-sub">TAI-GÍ FRIENDLY ENVIRONMENT</div>
+  <div class="loading-motto">
+    <div class="loading-motto-line">為文化生根</div>
+    <div class="loading-motto-line">為台語續命</div>
+    <div class="loading-motto-line">為往聖繼絕學</div>
+    <div class="loading-motto-line">為台灣創文明</div>
+  </div>
   <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
 </div>
 
