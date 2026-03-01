@@ -1639,7 +1639,7 @@ async function deletePhoto(nodeId, fileId, btn) {
   if (!state.isAdmin) return;
   if (!confirm('確定要刪除這張照片？')) return;
   btn.disabled = true;
-  const res = await api({ action: 'deletePhoto', node_id: nodeId, file_id: fileId, line_user_id: state.user?.userId || '' });
+  const res = await api(null, 'POST', { action: 'deletePhoto', node_id: nodeId, file_id: fileId, line_user_id: state.user?.userId || '' });
   if (res.success) {
     btn.closest('.photo-slot').remove();
     toast('✅ 照片已刪除');
