@@ -1274,6 +1274,9 @@ async function loadDetail(id) {
             <div class="info-field"><label>📅 推薦時間</label><span>${n.submitted_at ? new Date(n.submitted_at).toLocaleDateString('zh-TW') : '—'}</span></div>
             <div class="info-field"><label>👍 票數</label><span>${n.votes}</span></div>
             <div class="info-field" style="grid-column:1/-1"><label>📝 說明</label><span>${n.description || '（無）'}</span></div>
+            ${n.contact ? `<div class="info-field"><label>📞 聯絡方式</label><span>${n.contact}</span></div>` : ''}
+            ${n.hours ? `<div class="info-field"><label>🕐 營業時間</label><span>${n.hours}</span></div>` : ''}
+            ${n.tai_gi_service ? `<div class="info-field" style="grid-column:1/-1"><label>🗣️ 台語服務說明</label><span>${n.tai_gi_service}</span></div>` : ''}
           </div>
           ${n.status==='approved' ? `
             <div class="score-breakdown">
