@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>輔導員後台 — 咱兜的台語</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #1a1208;
+  --bamboo: #3d6b4f;
+  --bamboo-light: #5a9470;
+  --bamboo-pale: #d4e8db;
+  --earth: #c4622d;
+  --earth-light: #e8895a;
+  --earth-pale: #f5ddd0;
+  --rice: #f7f2e8;
+  --rice-dark: #ede5d0;
+  --gold: #c9983a;
+  --gold-light: #f0cb6a;
+  --sky: #4a7fa5;
+  --sky-pale: #d0e4f0;
+  --text: #2d2010;
+  --text-muted: #7a6a50;
+  --border: #d5c9b0;
+  --shadow: rgba(61,107,79,0.15);
+  --radius: 12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--rice);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ---- HEADER ---- */
+header {
+  background: var(--bamboo);
+  color: white;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px var(--shadow);
+}
+.header-inner {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem; height: 60px;
+  max-width: 1200px; margin: 0 auto;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: inherit;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--gold); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.logo-text { font-family: 'Noto Serif TC', serif; font-weight: 900; font-size: 1.1rem; }
+.logo-sub  { font-size: 0.65rem; opacity: 0.75; letter-spacing: 0.06em; }
+.header-right { display: flex; align-items: center; gap: 0.8rem; }
+.back-btn {
+  font-size: 0.75rem; padding: 0.25rem 0.7rem;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,0.3);
+  background: transparent; color: rgba(255,255,255,0.75);
+  cursor: pointer; text-decoration: none;
+  transition: all 0.2s; font-family: 'Noto Sans TC', sans-serif;
+}
+.back-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+.user-chip {
+  font-size: 0.75rem; color: var(--gold-light);
+  background: rgba(255,255,255,0.08);
+  padding: 0.25rem 0.7rem; border-radius: 12px;
+}
+
+/* ---- HERO ---- */
+.hero {
+  background: linear-gradient(140deg, #1e3828 0%, #2d5540 55%, #3d6b4f 100%);
+  padding: 1.8rem 2rem;
+}
+.hero-inner { max-width: 1200px; margin: 0 auto; color: white; }
+.hero-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem; font-weight: 900; margin-bottom: 0.2rem;
+}
+.hero-sub { font-size: 0.82rem; opacity: 0.7; margin-bottom: 1.2rem; }
+.kpi-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.kpi-box {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 10px; padding: 0.8rem 1.4rem;
+  backdrop-filter: blur(6px); min-width: 110px;
+}
+.kpi-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem; font-weight: 700;
+  color: var(--gold-light); line-height: 1;
+}
+.kpi-label { font-size: 0.68rem; opacity: 0.75; margin-top: 3px; }
+
+/* ---- LAYOUT ---- */
+main { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1.2rem;
+}
+
+/* ---- CARDS ---- */
+.card {
+  background: white; border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 10px var(--shadow);
+}
+.card-pad { padding: 1.2rem 1.4rem; }
+
+.section-title {
+  font-family: 'Noto Serif TC', serif; font-size: 1rem;
+  font-weight: 700; color: var(--bamboo);
+  margin-bottom: 0.9rem; padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--bamboo-pale);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.section-title::before {
+  content: ''; width: 4px; height: 1rem;
+  background: var(--bamboo); border-radius: 2px;
+}
+
+/* ---- SOCIAL CARDS ---- */
+.social-card {
+  background: var(--rice);
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  transition: all 0.18s;
+}
+.social-card:hover {
+  border-color: var(--bamboo);
+  box-shadow: 0 3px 12px var(--shadow);
+  transform: translateY(-1px);
+}
+.social-card-head {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 0.7rem;
+}
+.social-card-name {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 700; font-size: 1rem; color: var(--text);
+}
+.social-card-region {
+  font-size: 0.7rem; color: var(--text-muted);
+  background: var(--rice-dark); padding: 0.2rem 0.55rem;
+  border-radius: 5px;
+}
+.progress-wrap {
+  display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.6rem;
+}
+.progress-label { font-size: 0.7rem; color: var(--text-muted); width: 40px; flex-shrink: 0; }
+.progress-bar {
+  flex: 1; height: 8px;
+  background: var(--rice-dark); border-radius: 4px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--bamboo), var(--bamboo-light));
+  transition: width 0.9s ease;
+}
+.progress-pct {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem; color: var(--bamboo);
+  font-weight: 700; width: 36px; text-align: right;
+}
+.stat-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.chip {
+  font-size: 0.68rem; background: white;
+  border: 1px solid var(--border);
+  border-radius: 5px; padding: 0.18rem 0.5rem;
+  color: var(--text-muted);
+}
+.chip-warn { color: var(--earth); border-color: var(--earth-pale); background: var(--earth-pale); }
+
+/* ---- SILENT LIST ---- */
+.silent-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rice-dark);
+  font-size: 0.82rem;
+}
+.silent-row:last-child { border-bottom: none; }
+.silent-name { font-weight: 600; margin-bottom: 1px; }
+.silent-social { font-size: 0.68rem; color: var(--text-muted); }
+.days-badge {
+  font-family: 'Space Mono', monospace; font-size: 0.72rem;
+  color: var(--earth); background: var(--earth-pale);
+  padding: 0.15rem 0.45rem; border-radius: 4px;
+  margin-right: 0.4rem;
+}
+
+/* ---- INVITE ---- */
+.invite-section { margin-bottom: 0.8rem; }
+.invite-section h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 0.88rem; font-weight: 700;
+  color: var(--bamboo); margin-bottom: 0.5rem;
+}
+.invite-link-row { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; }
+.invite-link-row input {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem; flex: 1; background: var(--rice);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 0.4rem 0.6rem; color: var(--text); outline: none;
+}
+.invite-link-row input:focus { border-color: var(--bamboo); }
+.qr-wrap {
+  width: 100%; aspect-ratio: 1; max-width: 180px;
+  margin: 0.5rem auto 0;
+  background: white; border-radius: 8px;
+  border: 1px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem; color: var(--text-muted);
+}
+.qr-wrap img { width: 100%; border-radius: 7px; }
+
+/* ---- BTN ---- */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.5rem 1rem; border: none; border-radius: 8px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 0.83rem;
+  font-weight: 500; cursor: pointer; transition: all 0.2s;
+}
+.btn-primary { background: var(--bamboo); color: white; }
+.btn-primary:hover { background: var(--bamboo-light); transform: translateY(-1px); }
+.btn-earth { background: var(--earth); color: white; }
+.btn-earth:hover { background: var(--earth-light); }
+.btn-ghost { background: rgba(0,0,0,0.05); color: var(--text-muted); }
+.btn-ghost:hover { background: rgba(0,0,0,0.1); }
+.btn-sm { padding: 0.28rem 0.65rem; font-size: 0.77rem; }
+.btn-full { width: 100%; justify-content: center; }
+
+select {
+  width: 100%; padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 0.85rem;
+  background: var(--rice); color: var(--text); outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 0.6rem;
+}
+select:focus { border-color: var(--bamboo); }
+
+/* ---- TOAST ---- */
+.toast-wrap {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  z-index: 10000; display: flex; flex-direction: column; gap: 0.4rem;
+}
+.toast {
+  background: var(--ink); color: white;
+  padding: 0.75rem 1.1rem; border-radius: 9px;
+  font-size: 0.82rem; max-width: 280px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  animation: toastIn 0.25s ease, toastOut 0.3s ease 2.5s both;
+}
+.toast.ok  { border-left: 3px solid var(--bamboo-light); }
+.toast.err { border-left: 3px solid var(--earth); }
+@keyframes toastIn  { from { opacity:0; transform:translateX(20px); } }
+@keyframes toastOut { to   { opacity:0; transform:translateX(20px); } }
+
+/* ---- EMPTY ---- */
+.empty-state { text-align: center; padding: 2rem 1rem; color: var(--text-muted); }
+.empty-state .icon { font-size: 2rem; opacity: 0.4; margin-bottom: 0.6rem; }
+.empty-state p { font-size: 0.85rem; }
+
+/* ---- SPINNER ---- */
+.spinner {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--bamboo-pale);
+  border-top-color: var(--bamboo);
+  animation: spin 0.7s linear infinite; display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-row { display: flex; justify-content: center; padding: 2rem; }
+
+/* ---- AUTH GUARD ---- */
+#authGuard {
+  position: fixed; inset: 0;
+  background: var(--bamboo);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 99999; color: white; text-align: center;
+  padding: 2rem;
+}
+#authGuard.hide { display: none; }
+.guard-icon { font-size: 3rem; margin-bottom: 1rem; }
+.guard-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.4rem; font-weight: 900; margin-bottom: 0.5rem;
+}
+.guard-sub { font-size: 0.88rem; opacity: 0.75; margin-bottom: 2rem; line-height: 1.7; }
+.guard-btn {
+  background: var(--gold); color: var(--ink);
+  border: none; border-radius: 10px;
+  padding: 0.75rem 2rem; font-size: 0.95rem;
+  font-weight: 700; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.2s; margin: 0.3rem;
+}
+.guard-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+.guard-btn-ghost {
+  background: rgba(255,255,255,0.1); color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.guard-btn-ghost:hover { background: rgba(255,255,255,0.2); }
+
+@media (max-width: 900px) {
+  .main-grid { grid-template-columns: 1fr; }
+  .header-inner { padding: 0 1rem; }
+  main { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- 身份驗證守門 -->
+<div id="authGuard">
+  <div class="guard-icon">👥</div>
+  <div class="guard-title">輔導員後台</div>
+  <div class="guard-sub">請先登入 LINE 帳號<br>才能進入輔導員管理頁面</div>
+  <button class="guard-btn" onclick="lineLogin()">🟢 LINE 登入</button>
+  <button class="guard-btn guard-btn-ghost" onclick="window.location.href='index.html'">← 返回首頁</button>
+</div>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-icon">🌿</div>
+      <div>
+        <div class="logo-text">咱兜的台語</div>
+        <div class="logo-sub">輔導員後台</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="user-chip" id="userChip">載入中…</span>
+      <a class="back-btn" href="index.html">← 返回首頁</a>
+      <button class="back-btn" onclick="lineLogout()">登出</button>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-title">👥 輔導員儀表板</div>
+    <div class="hero-sub">管理社團成員、追蹤活躍度、產生邀請連結</div>
+    <div class="kpi-row">
+      <div class="kpi-box">
+        <div class="kpi-num" id="kpi-socials">—</div>
+        <div class="kpi-label">負責社團數</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-num" id="kpi-members">—</div>
+        <div class="kpi-label">成員總數</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-num" id="kpi-active">—</div>
+        <div class="kpi-label">本週活躍</div>
+      </div>
+      <div class="kpi-box">
+        <div class="kpi-num" id="kpi-silent">—</div>
+        <div class="kpi-label">待督促</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="main-grid">
+
+    <!-- 左：社團列表 -->
+    <div>
+      <div class="section-title">🏘️ 我的社團</div>
+      <div id="socialList">
+        <div class="loading-row"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+    <!-- 右欄 -->
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+
+      <!-- 待督促名單 -->
+      <div class="card card-pad">
+        <div class="section-title">😴 待督促成員
+          <span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:0.3rem">7天以上未活動</span>
+        </div>
+        <div id="silentList">
+          <div class="loading-row"><div class="spinner"></div></div>
+        </div>
+        <button class="btn btn-earth btn-full" style="margin-top:0.9rem" onclick="pushAll()">
+          📢 全部發送督促通知
+        </button>
+      </div>
+
+      <!-- 邀請功能 -->
+      <div class="card card-pad">
+        <div class="section-title">🔗 邀請成員加入</div>
+        <div class="invite-section">
+          <h4>選擇社團</h4>
+          <select id="inviteSelect" onchange="generateInvite()">
+            <option value="">— 選擇社團 —</option>
+          </select>
+          <div class="invite-link-row">
+            <input type="text" id="inviteLinkInput" readonly placeholder="邀請連結">
+            <button class="btn btn-primary btn-sm" onclick="copyLink()">複製</button>
+          </div>
+          <div class="qr-wrap" id="qrWrap">🔲</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+// ============================================================
+// CONFIG — 與 index.html 保持一致
+// ============================================================
+const CONFIG = {
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbwDv3vDAqSDd0KiJvqg78GsFGVOySMAgP1UFNfyH_I4a7JxMGS0AD1jVPl3ymFQWrM1lA/exec',
+  LINE_CHANNEL_ID: '2009251137',
+  ADMIN_IDS: ['Uc5ca09cd5c8a92cf82baa77a923536e3', 'U8860417f5bbb6d6b0d00e472618d28bd'],
+  REDIRECT_URI: 'https://chernben-git.github.io/taiwanigi-nodes/advisor.html',
+};
+
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  user: null,
+  isAdmin: false,
+};
+
+// ============================================================
+// DEMO 資料（GAS 後端接通前使用）
+// ============================================================
+const DEMO = {
+  socials: [
+    { id:'SOC001', name:'台語文創意園區', region:'彰化', memberCount:12, activeCount:8,  silentCount:4 },
+    { id:'SOC002', name:'彰化教會',       region:'彰化', memberCount:20, activeCount:15, silentCount:5 },
+    { id:'SOC003', name:'員東路教會',     region:'彰化', memberCount:9,  activeCount:6,  silentCount:3 },
+  ],
+  silentMembers: [
+    { name:'王小明', social:'彰化教會',       days:14 },
+    { name:'李阿花', social:'員東路教會',     days:10 },
+    { name:'陳大偉', social:'台語文創意園區', days:9  },
+    { name:'張美玲', social:'彰化教會',       days:8  },
+    { name:'林志成', social:'台語文創意園區', days:7  },
+  ],
+};
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', async () => {
+  await handleLineCallback();
+  restoreSession();
+});
+
+function restoreSession() {
+  const saved = localStorage.getItem('lineUser');
+  if (saved) {
+    try {
+      state.user = JSON.parse(saved);
+      state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
+      onLoginSuccess();
+    } catch(e) {
+      showGuard();
+    }
+  } else {
+    showGuard();
+  }
+}
+
+function showGuard() {
+  document.getElementById('authGuard').classList.remove('hide');
+}
+
+function hideGuard() {
+  document.getElementById('authGuard').classList.add('hide');
+}
+
+function onLoginSuccess() {
+  hideGuard();
+  document.getElementById('userChip').textContent = '👤 ' + (state.user?.displayName || '輔導員');
+  loadDashboard();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function loadDashboard() {
+  const data = DEMO;
+
+  // KPI
+  const totalMembers = data.socials.reduce((s, x) => s + x.memberCount, 0);
+  const totalActive  = data.socials.reduce((s, x) => s + x.activeCount, 0);
+  const totalSilent  = data.socials.reduce((s, x) => s + x.silentCount, 0);
+  animateNum('kpi-socials', data.socials.length);
+  animateNum('kpi-members', totalMembers);
+  animateNum('kpi-active',  totalActive);
+  animateNum('kpi-silent',  totalSilent);
+
+  // 社團列表
+  const listEl = document.getElementById('socialList');
+  listEl.innerHTML = data.socials.map(s => {
+    const pct = Math.round(s.activeCount / s.memberCount * 100);
+    return `
+      <div class="social-card">
+        <div class="social-card-head">
+          <div class="social-card-name">${s.name}</div>
+          <div class="social-card-region">📍 ${s.region}</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label">活躍率</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width:${pct}%"></div>
+          </div>
+          <div class="progress-pct">${pct}%</div>
+        </div>
+        <div class="stat-chips">
+          <div class="chip">👥 成員 ${s.memberCount} 人</div>
+          <div class="chip">✅ 活躍 ${s.activeCount} 人</div>
+          <div class="chip chip-warn">😴 待督促 ${s.silentCount} 人</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // 待督促名單
+  const silentEl = document.getElementById('silentList');
+  if (!data.silentMembers.length) {
+    silentEl.innerHTML = '<div class="empty-state"><div class="icon">🎉</div><p>目前沒有待督促成員</p></div>';
+  } else {
+    silentEl.innerHTML = data.silentMembers.map(m => `
+      <div class="silent-row">
+        <div>
+          <div class="silent-name">${m.name}</div>
+          <div class="silent-social">${m.social}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.3rem">
+          <span class="days-badge">${m.days}天</span>
+          <button class="btn btn-ghost btn-sm" onclick="pushOne('${m.name}')">📢</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 邀請社團選單
+  const sel = document.getElementById('inviteSelect');
+  sel.innerHTML = '<option value="">— 選擇社團 —</option>' +
+    data.socials.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+}
+
+function animateNum(id, target) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let cur = 0;
+  const step = Math.max(1, Math.ceil(target / 30));
+  const iv = setInterval(() => {
+    cur = Math.min(cur + step, target);
+    el.textContent = cur;
+    if (cur >= target) clearInterval(iv);
+  }, 40);
+}
+
+// ============================================================
+// 邀請連結 + QR Code
+// ============================================================
+function generateInvite() {
+  const val = document.getElementById('inviteSelect').value;
+  if (!val) { document.getElementById('inviteLinkInput').value = ''; document.getElementById('qrWrap').innerHTML = '🔲'; return; }
+  const base = CONFIG.REDIRECT_URI.replace('advisor.html', 'index.html');
+  const link = `${base}?join=${val}`;
+  document.getElementById('inviteLinkInput').value = link;
+  document.getElementById('qrWrap').innerHTML =
+    `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(link)}&choe=UTF-8" alt="QR Code">`;
+}
+
+function copyLink() {
+  const val = document.getElementById('inviteLinkInput').value;
+  if (!val) { toast('請先選擇社團', 'err'); return; }
+  navigator.clipboard.writeText(val).then(() => toast('✅ 邀請連結已複製！'));
+}
+
+// ============================================================
+// 督促
+// ============================================================
+function pushOne(name) {
+  toast(`📢 已傳送督促通知給 ${name}（Demo 模式）`);
+}
+
+function pushAll() {
+  toast('📢 已傳送督促通知給所有待督促成員（Demo 模式）');
+}
+
+// ============================================================
+// LINE LOGIN
+// ============================================================
+function lineLogin() {
+  if (!CONFIG.LINE_CHANNEL_ID || CONFIG.LINE_CHANNEL_ID.includes('YOUR_')) {
+    state.user = { userId: 'U_demo_user', displayName: '示範輔導員', pictureUrl: '' };
+    state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
+    localStorage.setItem('lineUser', JSON.stringify(state.user));
+    onLoginSuccess();
+    toast('🟢 已以示範帳號登入');
+    return;
+  }
+  const state_param = Math.random().toString(36).substr(2);
+  sessionStorage.setItem('line_state', state_param);
+  const params = new URLSearchParams({
+    response_type: 'code',
+    client_id: CONFIG.LINE_CHANNEL_ID,
+    redirect_uri: CONFIG.REDIRECT_URI,
+    state: state_param,
+    scope: 'profile openid',
+    nonce: Math.random().toString(36).substr(2),
+  });
+  window.location.href = 'https://access.line.me/oauth2/v2.1/authorize?' + params.toString();
+}
+
+async function handleLineCallback() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  const stateParam = params.get('state');
+  const savedState = sessionStorage.getItem('line_state');
+  if (!code) return;
+  if (stateParam !== savedState) { toast('LINE 登入驗證失敗', 'err'); return; }
+  window.history.replaceState({}, '', window.location.pathname);
+  sessionStorage.removeItem('line_state');
+  const res = await fetch(CONFIG.GAS_URL + '?action=lineTokenExchange&code=' + code + '&redirect_uri=' + encodeURIComponent(CONFIG.REDIRECT_URI));
+  try {
+    const data = await res.json();
+    if (data.profile) {
+      state.user = data.profile;
+      state.isAdmin = CONFIG.ADMIN_IDS.includes(state.user.userId);
+      localStorage.setItem('lineUser', JSON.stringify(state.user));
+      onLoginSuccess();
+      toast(`🟢 歡迎，${state.user.displayName}！`);
+    }
+  } catch(e) { toast('登入解析失敗', 'err'); }
+}
+
+function lineLogout() {
+  state.user = null; state.isAdmin = false;
+  localStorage.removeItem('lineUser');
+  toast('已登出');
+  setTimeout(() => window.location.href = 'index.html', 800);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, type = 'ok') {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+</script>
+</body>
+</html>
