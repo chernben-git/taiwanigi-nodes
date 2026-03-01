@@ -1272,10 +1272,10 @@ async function loadDetail(id) {
         <div class="card side-card">
           <h4>📸 現場照片</h4>
           <div class="photo-grid" id="photoGrid-${n.node_id}">
-            ${(n.photo_urls||[]).map(url => `<div class="photo-slot"><img src="${url}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`).join('')}
+            ${(n.photo_urls||[]).map(url => { const t = url.includes('uc?export=view&id=') ? url.replace('uc?export=view&id=','thumbnail?id=')+'&sz=w400' : url; return `<div class="photo-slot"><img src="${t}" alt="節點照片" onerror="this.parentNode.innerHTML='🖼️'"></div>`; }).join('')}
             ${state.user ? Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() =>
               `<label class="photo-slot" title="新增照片" style="cursor:pointer">
-                <input type="file" accept="image/*" capture="environment" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋
+                <input type="file" accept="image/*" style="display:none" onchange="uploadPhoto('${n.node_id}', this)">＋
               </label>`).join('')
             : Array(Math.max(0, 6-(n.photo_urls||[]).length)).fill(0).map(() => `<div class="photo-slot">＋</div>`).join('')}
           </div>
